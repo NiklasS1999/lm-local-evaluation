@@ -34,7 +34,10 @@ Dieses Repository enthält eine lokal integrierte und angepasste Version von [El
 
 1. Python 3.11.0 herunterladen und installieren
     - Python 3.11.0 von der [offiziellen Webseite](https://www.python.org/downloads/release/python-3110/) herunterladen und installieren
-    - mit "python --version" in der Konsole prüfen, ob die Installation geklappt hat
+    - Überprüfen, ob die Installation geklappt hat:
+```bash
+python --version
+```
 2. Git herunterladen und installieren
     - Git von der [offiziellen Webseite](https://git-scm.com/downloads/win) herunterladen und installieren
     - mit "git --version" in der Konsole prüfen, ob die Installation geklappt hat
