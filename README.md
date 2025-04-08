@@ -1,25 +1,29 @@
-# Allgemeines
+# 🧠 LM-Local-Evaluation
 
-Dieses Repository basiert auf einem Fork von [EleutherAI/lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness) und enthält wichtige Fixes und Erweiterungen, um aktuelle Language Models (z. B. Qwen, Gemma, LLaMA 3) unter Linux oder Windows 11 mit CUDA 12.1–12.8 einerseits in Bezug auf die Antwortqualität und andererseits in Bezug auf technische Metriken benchmarken zu können.
+Mithilfe dieses Repositories können Language Models wie **Qwen**, **Gemma** oder **LLaMA 3** lokal auf Desktop-Hardware mithilfe von verschiedenen Benchmarks evaluiert sowie verglichen werden.
+Dazu werden je Modell die Installationsgröße, Latenz, RAM-Speichernutzung, GPU-Speichernutzung, Parametergröße sowie die Antwortqualität mithilfe von passenden Metriken ermittelt, ausgewertet und grafisch dargestellt.
+
+Dies dient dem Vergleich von verschiedenen Language Models zur lokalen Nutzung als persönlichen Assistenten.
+Dadurch kann herausgefunden werden, ob der Einsatz eines bestimmten Language Models für eine bestimmte Hardware-Konfiguration, beispielsweise ein mobiles Endgeräts, sinnvoll ist.
+Je nach Benutzer-Präferenz können hierbei andere Schwerpunkte gesetzt werden und entsprechend eine Auswahl getroffen werden. Dazu soll dieses Repository unterstützen.
+
+Dieses Repository enthält eine lokal integrierte und angepasste Version von [EleutherAI/lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness) für die Ermittlung der Antwortqualität, daher muss kein separates GitHub-Repo geklont werden. Alle Änderungen sind enthalten und einsatzbereit.
 
 ---
 
 ## 🔧 Voraussetzungen
 
-- ✅ Python 3.11
-- ✅ Git + GitHub-Zugang
-- ✅ Windows 11 oder Linux
-- ✅ NVIDIA GPU mit CUDA 12.x Unterstützung (z.B. GeForce RTX 3060)
-- ✅ NVIDIA CUDA-Toolkit
-- ✅ NVIDIA cuDNN-Bibliothek
-- ✅ Huggingface-Zugang
-- ✅ GitHub lm-local-evaluation Repository
-- ✅ Virtual Environment (empfohlen)
-- ✅ Nano-Texteditor (empfohlen)
+- Python 3.11
+- Git
+- Windows 11 oder Linux
+- NVIDIA GPU mit CUDA 12.x (z.B. GeForce RTX 3060)
+- NVIDIA CUDA-Toolkit + cuDNN-Bibliothek
+- Huggingface Account & Access Token
+- Virtual Environment (empfohlen)
 
 ---
 
-## 📖🪟 Anleitung - Installation der Voraussetzungen (neues Windows 11 System)
+## 🪟 Anleitung Installation (neues Windows 11 System)
 
 1. Python 3.11.0 herunterladen und installieren
     - Python 3.11.0 von der [offiziellen Webseite](https://www.python.org/downloads/release/python-3110/) herunterladen und installieren
@@ -56,10 +60,11 @@ Dieses Repository basiert auf einem Fork von [EleutherAI/lm-evaluation-harness](
     - Virtuelle Umgebung erstellen (z.B. mit “py -3.11 -m venv venv”)
     - Windows Ausführungsrechte für den aktuellen Benutzer setzen (z.B. über PowerShell als Administrator: Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser)
     - Virtuelle Umgebung starten (z.B. mit “./venv/Scripts/activate”)
-8. GitHub Benchmark Repository klonen
-    - ???
+8. lm-local-evaluation Repository klonen
+    - Repository klonen mit: “git clone https://github.com/NiklasS1999/lm-local-evaluation.git”
+    - Repository öffnen mit: “cd lm-local-evaluation”
 9. Abhängigkeiten installieren
-    - alle benötigten Abhängigkeiten in dem neuen Ordner mit “pip install -r requirements.txt“ installieren
+    - alle benötigten Abhängigkeiten mit “pip install -r requirements.txt“ installieren
 10. Huggingface Login und Konfiguration
     - Account unter [Huggingface anlegen](https://huggingface.co/join)
     - einen Access-Token [unter den Accounteinstellungen](https://huggingface.co/settings/tokens) anlegen und kopieren
@@ -69,7 +74,7 @@ Dieses Repository basiert auf einem Fork von [EleutherAI/lm-evaluation-harness](
     - Huggingface Model-Download Ordner setzen (z.B. über die Konsole mit “setx HF_HOME "E:\Daten\LM_Benchmarks\models_cache"”)
 
 
-## 📖🐧 Anleitung - Installation der Voraussetzungen (neues Windows 11 WSL2 Linux System)
+## 🐧 Anleitung Installation (neues Windows 11 WSL2 Linux System)
 
 1. Im BIOS des Mainboards den SVM Mode aktivieren (damit eine Virtualisierung möglich ist)
 2. WSL2 (Ubuntu) installieren und konfigurieren
@@ -92,11 +97,12 @@ Dieses Repository basiert auf einem Fork von [EleutherAI/lm-evaluation-harness](
     - im Ubuntu-Terminal in den neuen Ordner wechseln (z.B. “cd ./Daten/LM_Benchmarks”)
     - VENV anlegen mit: “python3.11 -m venv venv”
     - VENV aktivieren mit: “source venv/bin/activate”
-5. GitHub Benchmark Repository klonen
-    - ???
+5. lm-local-evaluation Repository klonen
+    - Repository klonen mit: “git clone https://github.com/NiklasS1999/lm-local-evaluation.git”
+    - Repository öffnen mit: “cd lm-local-evaluation”
 6. Abhängigkeiten installieren
     - Pip aktualisieren mit “pip install --upgrade pip”
-    - alle benötigten Abhängigkeiten in dem neuen Ordner mit “pip install -r requirements.txt“ installieren
+    - alle benötigten Abhängigkeiten mit “pip install -r requirements.txt“ installieren
 7. Huggingface Login und Konfiguration
     - Account unter [Huggingface anlegen](https://huggingface.co/join)
     - einen Access-Token [unter den Accounteinstellungen](https://huggingface.co/settings/tokens) anlegen und kopieren
@@ -106,25 +112,75 @@ Dieses Repository basiert auf einem Fork von [EleutherAI/lm-evaluation-harness](
 
 ---
 
-## ⚙️ Installation (einmalig)
+## ⚙️ Konfiguration
 
+Die Benchmarks können mithilfe von verschiedenen Einstellungen ausgeführt werden. Diese wirken sich drastisch auf die Ergebnisqualität sowie die Ausführungszeit aus.
+Die Konfiguration kann mithilfe der Datei global_config.py angepasst werden, diese ist ausführlich kommentiert und zeigt mögliche Anpassungen auf.
+
+Bearbeiten der Konfiguration:
 ```bash
-# 1. Ubuntu Packages installieren
-sudo apt update && sudo apt upgrade -y
+nano global_config.py
+```
 
-sudo apt install -y software-properties-common
-sudo add-apt-repository ppa:deadsnakes/ppa
-sudo apt install -y python3.11 python3.11-venv python3.11-distutils python3.11-dev git build-essential nano
-sudo apt install -y nvidia-cuda-toolkit
+---
 
-# 2. Repository klonen
-git clone https://github.com/NiklasS1999/lm-evaluation-harness.git
-cd lm-evaluation-harness
+## 🚀 Ausführung
 
-# 3. Python-Umgebung erstellen
-python3.11 -m venv venv
-source venv/bin/activate
+Es können entweder einzelne Benchmarks oder alle automatisiert nacheinander ausgeführt werden.
 
-# 4. Abhängigkeiten installieren
-pip install -r requirements_cuda128.txt
-pip install -r requirements_freeze.txt
+Liste an vorhandenen Benchmarks:
+model_installationsize.py   -> Messung der Installationsgröße der einzelnen Modelle
+model_latency.py            -> Messung der Latenz (Model- und Tokenizer-Laden Latenz, Antwortlatenz, Gesamt)
+model_memoryusage.py        -> Messung der RAM-Speichernutzung (Cold-Start, nur Inferenz, GPU-Speicher)
+model_parametersize.py      -> Messung der Parametergröße und somit des groben (vermutlichen) Rechenaufwands
+model_responsequality.py    -> Messung der Antwortqualität durch vordefinierte Benchmarks des [EleutherAI/lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness) Repository wie MMLU, HellaSwag, GSM8K, HumanEval, BoolQ
+
+Ausführung eines einzelnen Benchmarks:
+```bash
+python model_installationsize.py
+```
+Ausführung aller Benchmarks inkl. Auswertung:
+```bash
+python run_all_benchmarks.py
+```
+
+---
+
+## 📊 Ergebnisse
+
+Während der Ausführung eines Benchmarks werden die Ergebnisse in der Konsole ausgegeben. Außerdem werden die Ergebnisse am Ende des Benchmarks entweder in eine .csv oder eine .json Datei mit dem Namen des Benchmarks sowie einem Zeitstempel geschrieben und unter ./results/Modell_Name abgespeichert.
+
+Wenn alle Benchmarks mithilfe von run_all_benchmarks.py ausgeführt werden, wird am Ende eine Auswertung durchgeführt.
+Durch diese wird eine Übersicht der wichtigsten Ergebnisse aller durchgeführten Benchmarks in der Konsole ausgegeben, sowie die wichtigsten Ergebnisse unter ./results/benchmark_overview.csv abgespeichert.
+
+Außerdem werden im Rahmen der Auswertung verschiedene Plots (Balkendiagramme) zum Vergleich der evaluierten Language Models generiert und unter ./results/result_plots abgespeichert.
+
+Des Weiteren wird eine Auswertung bezüglich der jeweiligen Vor- und Nachteile eines Modells in Bezug auf den Vergleich zu den anderen Modellen in der Konsole ausgegeben. Diese Ergebnisse werden außerdem in einer Textdatei unter ./results/model_advantages.txt abgespeichert.
+
+Die Auswertung kann auch manuell über den folgenden Befehlt erstellt werden:
+```bash
+python benchmark_overview.py
+```
+Es werden dann jedoch nur die Ergebnisse dargestellt, welche auch vorhanden sind (wo bisher Benchamarks durchgeführt wurden).
+
+---
+
+## 💡 Tipps
+
+Manche Antwortqualität-Benchmarks sind nur unter einem Linux-Betriebssystem ausführbar und werfen unter der Ausführung in Windows einen Fehler (z.B. HumanEval).
+
+Da das Projekt vollständig mit Python umgesetzt wurde, ist der Code betriebssystemunabhängig, jedoch wurde der Code nur unter Windows 11 und WSL2-Linux (Ubuntu) getestet.
+
+Die Ausführungszeit ist je nach Konfiguration sehr unterscheidlich, in der von mir bereitgestellten Konfiguration dauerte die vollständige Auswertung insgesamt 19 Stunden mit einer GeForce RTX 3060.
+Dies ist vorallem auf den Antwortqualität-Benchmark HumanEval zurückzuführen. Dieser dauerte alleine rund 15 Stunden für alle drei Language Modelle.
+
+Je nach Language Modell kann es sein, das in der Konsole Fehler auftreten. Besonders bei den Antwortqualität-Benchmarks kann dies aufgrund von Inkompatibilität vorkommen.
+Getestet wurden lediglich die drei in der Konfiguration hinterlegten Modelle.
+
+Wenn ein anderes Modell getestet werden soll, muss in der Konfiguration unter "models": der Huggignface-pFad zum Language Model angegeben werden.
+Dementsprechend können nur Language Models gebenchmarkt werden, die auch in Huggignface öffentlich zugänglich sind.
+
+Bei der ersten Ausführung eines Benchmarks werden die entsprechend in der Globalen konfiguration hinterlegten Modelle von Huggingface heruntergeladen.
+Dies kann je nach Modellgröße und Internetverbindung mehrere Stunden in Anspruch nehmen.
+
+

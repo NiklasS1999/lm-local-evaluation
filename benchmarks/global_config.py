@@ -28,7 +28,7 @@ CONFIG = {
     # interne Implementierung der Attention des Language Models: eager, sdpa, flash_attention_2
     "attention": "sdpa",
 
-    # Test-Prompts für RAM-Messung und Latenzmessung (in diesem Fall aus den eval-Benchmarks MMLU, HellaSwag,GSM8K,HumanEval,BoolQ)
+    # Test-Prompts für RAM-Messung und Latenzmessung (in diesem Fall entnommen aus den eval-Benchmarks MMLU, HellaSwag, GSM8K, HumanEval und BoolQ)
     "prompts" : [
         "What was GDP per capita in the United States in 1850 when adjusting for inflation and PPP in 2011 prices? About $300, About $3k, About $8k, About $15k",
         "A woman stands at the end of a diving board. She lightly bounces up and down. she",
@@ -44,8 +44,7 @@ CONFIG = {
     "token_limit": 110,
 
     # Liste der Benchmarks für Antwortqualität-Messungen (mmlu 15min, hellaswag: 35min, gsm8k: 5std, humaneval: 12min (nur auf Linux), boolq: 4min)
-    # "tasks" : ["mmlu", "hellaswag", "gsm8k", "humaneval", "boolq"],
-    "tasks": ["boolq"],
+    "tasks" : ["mmlu", "hellaswag", "gsm8k", "humaneval", "boolq"],
 
     # Antwortqualität-Benchmark Konfiguration
     "num_fewshot": 0,
