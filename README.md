@@ -149,6 +149,14 @@ Liste an vorhandenen Benchmarks:
 - model_parametersize.py      -> Messung der Parametergröße und somit des groben (vermutlichen) Rechenaufwands
 - model_responsequality.py    -> Messung der Antwortqualität durch vordefinierte Benchmarks wie MMLU, HellaSwag, GSM8K, HumanEval, BoolQ
 
+| Benchmark-Skript          | Beschreibung                                                                                      |
+|------------------------------|-------------------------------------------------------------------------------------------------------|
+| `model_installationsize.py`  | Misst die **Installationsgröße** des Modells.                                                        |
+| `model_latency.py`           | Misst die **Latenz**: Tokenizer-, Modell-, Antwort- und Gesamtlatenz.                                |
+| `model_memoryusage.py`       | Misst die **RAM- und GPU-Speichernutzung**: Cold-Start, reine Inferenz, Gesamtverbrauch.             |
+| `model_parametersize.py`     | Misst die **Größe der Modellparameter** – als Anhaltspunkt für den geschätzten Rechenaufwand.        |
+| `model_responsequality.py`   | Bewertet die **Antwortqualität** anhand vordefinierter Benchmarks (z. B. MMLU, HellaSwag, GSM8K).    |
+
 Ausführung eines einzelnen Benchmarks:
 ```bash
 python model_installationsize.py
