@@ -10,9 +10,9 @@ Dazu werden je Modell folgende Kategorien gemessen, ausgewertet und grafisch dar
 - Parametergröße
 - Antwortqualität
 
-Dies dient dem Vergleich von verschiedenen Language Models zur lokalen Nutzung als persönlichen Assistenten.
-Dadurch kann herausgefunden werden, ob der Einsatz eines bestimmten Language Models für eine bestimmte Hardware-Konfiguration, beispielsweise ein mobiles Endgeräts, sinnvoll ist.
-Je nach Benutzer-Präferenz können hierbei andere Schwerpunkte gesetzt werden und entsprechend eine Auswahl getroffen werden. Dabei soll dieses Repository unterstützen.
+Dies dient dem Vergleich von verschiedenen Language Models zur lokalen Nutzung als persönlichen Assistenten.<br>
+Dadurch kann herausgefunden werden, ob der Einsatz eines bestimmten Language Models für eine bestimmte Hardware-Konfiguration, beispielsweise ein mobiles Endgeräts, sinnvoll ist.<br>
+Je nach Benutzer-Präferenz können hierbei andere Schwerpunkte gesetzt werden und entsprechend eine Auswahl getroffen werden. Dabei soll dieses Repository unterstützen.<br>
 
 Dieses Repository enthält eine lokal integrierte und angepasste Version von [EleutherAI/lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness) für die Ermittlung der Antwortqualität, daher muss kein separates GitHub-Repo geklont werden. Alle Änderungen sind enthalten und einsatzbereit.
 
@@ -121,10 +121,13 @@ Dieses Repository enthält eine lokal integrierte und angepasste Version von [El
 
 ## ⚙️ Konfiguration
 
-Die Benchmarks können mithilfe von verschiedenen Einstellungen ausgeführt werden. Diese wirken sich drastisch auf die Ergebnisqualität sowie die Ausführungszeit aus.
-Die Konfiguration kann mithilfe der Datei global_config.py angepasst werden, diese ist ausführlich kommentiert und zeigt mögliche Anpassungen auf.
+Die Benchmarks können mithilfe von verschiedenen Einstellungen ausgeführt werden. Diese wirken sich drastisch auf die Ergebnisqualität sowie die Ausführungszeit aus.<br>
+Die Konfiguration kann mithilfe der Datei global_config.py angepasst werden, diese ist ausführlich kommentiert und zeigt mögliche Anpassungen auf.<br>
 
-Bearbeiten der Konfiguration:
+Neben der globalen Konfiguration kann auch je Benchmark eine eigene Konfiguration gesetzt werden.<br>
+Dies geschieht in den einzelnen Benchmark-Scripten.<br>
+
+Bearbeiten der Globalen Konfiguration:
 ```bash
 nano global_config.py
 ```
@@ -135,12 +138,12 @@ nano global_config.py
 
 Es können entweder einzelne Benchmarks oder alle automatisiert nacheinander ausgeführt werden.
 
-Liste an vorhandenen Benchmarks:
-model_installationsize.py   -> Messung der Installationsgröße der einzelnen Modelle
-model_latency.py            -> Messung der Latenz (Model- und Tokenizer-Laden Latenz, Antwortlatenz, Gesamt)
-model_memoryusage.py        -> Messung der RAM-Speichernutzung (Cold-Start, nur Inferenz, GPU-Speicher)
-model_parametersize.py      -> Messung der Parametergröße und somit des groben (vermutlichen) Rechenaufwands
-model_responsequality.py    -> Messung der Antwortqualität durch vordefinierte Benchmarks des [EleutherAI/lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness) Repository wie MMLU, HellaSwag, GSM8K, HumanEval, BoolQ
+Liste an vorhandenen Benchmarks:<br>
+model_installationsize.py   -> Messung der Installationsgröße der einzelnen Modelle<br>
+model_latency.py            -> Messung der Latenz (Model- und Tokenizer-Laden Latenz, Antwortlatenz, Gesamt)<br>
+model_memoryusage.py        -> Messung der RAM-Speichernutzung (Cold-Start, nur Inferenz, GPU-Speicher)<br>
+model_parametersize.py      -> Messung der Parametergröße und somit des groben (vermutlichen) Rechenaufwands<br>
+model_responsequality.py    -> Messung der Antwortqualität durch vordefinierte Benchmarks des [EleutherAI/lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness) Repository wie MMLU, HellaSwag, GSM8K, HumanEval, BoolQ<br>
 
 Ausführung eines einzelnen Benchmarks:
 ```bash
@@ -155,39 +158,39 @@ python run_all_benchmarks.py
 
 ## 📊 Ergebnisse
 
-Während der Ausführung eines Benchmarks werden die Ergebnisse in der Konsole ausgegeben. Außerdem werden die Ergebnisse am Ende des Benchmarks entweder in eine .csv oder eine .json Datei mit dem Namen des Benchmarks sowie einem Zeitstempel geschrieben und unter ./results/Modell_Name abgespeichert.
+Während der Ausführung eines Benchmarks werden die Ergebnisse in der Konsole ausgegeben. Außerdem werden die Ergebnisse am Ende des Benchmarks entweder in eine .csv oder eine .json Datei mit dem Namen des Benchmarks sowie einem Zeitstempel geschrieben und unter ./results/Modell_Name abgespeichert.<br>
 
-Wenn alle Benchmarks mithilfe von run_all_benchmarks.py ausgeführt werden, wird am Ende eine Auswertung durchgeführt.
-Durch diese wird eine Übersicht der wichtigsten Ergebnisse aller durchgeführten Benchmarks in der Konsole ausgegeben, sowie die wichtigsten Ergebnisse unter ./results/benchmark_overview.csv abgespeichert.
+Wenn alle Benchmarks mithilfe von run_all_benchmarks.py ausgeführt werden, wird am Ende eine Auswertung durchgeführt.<br>
+Durch diese wird eine Übersicht der wichtigsten Ergebnisse aller durchgeführten Benchmarks in der Konsole ausgegeben, sowie die wichtigsten Ergebnisse unter ./results/benchmark_overview.csv abgespeichert.<br>
 
-Außerdem werden im Rahmen der Auswertung verschiedene Plots (Balkendiagramme) zum Vergleich der evaluierten Language Models generiert und unter ./results/result_plots abgespeichert.
+Außerdem werden im Rahmen der Auswertung verschiedene Plots (Balkendiagramme) zum Vergleich der evaluierten Language Models generiert und unter ./results/result_plots abgespeichert.<br>
 
-Des Weiteren wird eine Auswertung bezüglich der jeweiligen Vor- und Nachteile eines Modells in Bezug auf den Vergleich zu den anderen Modellen in der Konsole ausgegeben. Diese Ergebnisse werden außerdem in einer Textdatei unter ./results/model_advantages.txt abgespeichert.
+Des Weiteren wird eine Auswertung bezüglich der jeweiligen Vor- und Nachteile eines Modells in Bezug auf den Vergleich zu den anderen Modellen in der Konsole ausgegeben. Diese Ergebnisse werden außerdem in einer Textdatei unter ./results/model_advantages.txt abgespeichert.<br>
 
-Die Auswertung kann auch manuell über den folgenden Befehlt erstellt werden:
+Die Auswertung kann auch manuell über den folgenden Befehl erstellt werden:
 ```bash
 python benchmark_overview.py
 ```
-Es werden dann jedoch nur die Ergebnisse dargestellt, welche auch vorhanden sind (wo bisher Benchamarks durchgeführt wurden).
+Es werden dann jedoch nur die Ergebnisse dargestellt, welche auch vorhanden sind (wo bisher Benchmarks durchgeführt wurden).
 
 ---
 
 ## 💡 Tipps
 
-Manche Antwortqualität-Benchmarks sind nur unter einem Linux-Betriebssystem ausführbar und werfen unter der Ausführung in Windows einen Fehler (z.B. HumanEval).
+Manche Antwortqualität-Benchmarks sind nur unter einem Linux-Betriebssystem ausführbar und werfen unter der Ausführung in Windows einen Fehler (z.B. HumanEval).<br>
 
-Da das Projekt vollständig mit Python umgesetzt wurde, ist der Code betriebssystemunabhängig, jedoch wurde der Code nur unter Windows 11 und WSL2-Linux (Ubuntu) getestet.
+Da das Projekt vollständig mit Python umgesetzt wurde, ist der Code betriebssystemunabhängig, jedoch wurde der Code nur unter Windows 11 und WSL2-Linux (Ubuntu) getestet.<br>
 
-Die Ausführungszeit ist je nach Konfiguration sehr unterscheidlich, in der von mir bereitgestellten Konfiguration dauerte die vollständige Auswertung insgesamt 19 Stunden mit einer GeForce RTX 3060.
-Dies ist vorallem auf den Antwortqualität-Benchmark HumanEval zurückzuführen. Dieser dauerte alleine rund 15 Stunden für alle drei Language Modelle.
+Die Ausführungszeit ist je nach Konfiguration sehr unterscheidlich, in der von mir bereitgestellten Konfiguration dauerte die vollständige Auswertung insgesamt 19 Stunden mit einer GeForce RTX 3060.<br>
+Dies ist vorallem auf den Antwortqualität-Benchmark HumanEval zurückzuführen. Dieser dauerte alleine rund 15 Stunden für alle drei Language Modelle.<br>
 
-Je nach Language Modell kann es sein, das in der Konsole Fehler auftreten. Besonders bei den Antwortqualität-Benchmarks kann dies aufgrund von Inkompatibilität vorkommen.
-Getestet wurden lediglich die drei in der Konfiguration hinterlegten Modelle.
+Je nach Language Modell kann es sein, das in der Konsole Fehler auftreten. Besonders bei den Antwortqualität-Benchmarks kann dies aufgrund von Inkompatibilität vorkommen.<br>
+Getestet wurden lediglich die drei in der Konfiguration hinterlegten Modelle.<br>
 
-Wenn ein anderes Modell getestet werden soll, muss in der Konfiguration unter "models": der Huggignface-pFad zum Language Model angegeben werden.
-Dementsprechend können nur Language Models gebenchmarkt werden, die auch in Huggignface öffentlich zugänglich sind.
+Wenn ein anderes Modell getestet werden soll, muss in der Konfiguration unter "models": der Huggignface-pFad zum Language Model angegeben werden.<br>
+Dementsprechend können nur Language Models gebenchmarkt werden, die auch in Huggignface öffentlich zugänglich sind.<br>
 
-Bei der ersten Ausführung eines Benchmarks werden die entsprechend in der Globalen konfiguration hinterlegten Modelle von Huggingface heruntergeladen.
-Dies kann je nach Modellgröße und Internetverbindung mehrere Stunden in Anspruch nehmen.
+Bei der ersten Ausführung eines Benchmarks werden die entsprechend in der Globalen konfiguration hinterlegten Modelle von Huggingface heruntergeladen.<br>
+Dies kann je nach Modellgröße und Internetverbindung mehrere Stunden in Anspruch nehmen.<br>
 
 
