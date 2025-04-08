@@ -35,78 +35,100 @@ Dieses Repository enthält eine lokal integrierte und angepasste Version von [El
 1. Python 3.11.0 herunterladen und installieren
     - Python 3.11.0 von der [offiziellen Webseite](https://www.python.org/downloads/release/python-3110/) herunterladen und installieren
     - Überprüfen, ob die Installation geklappt hat:
-```bash
-python --version
-```
+    ```bash
+    python --version
+    ```
 2. Git herunterladen und installieren
     - Git von der [offiziellen Webseite](https://git-scm.com/downloads/win) herunterladen und installieren
     - Überprüfen, ob die Installation geklappt hat:
-```bash
-git --version
-```
+    ```bash
+    git --version
+    ```
 3. Git Umgebungsvariable setzen
     - Windows+S Taste drücken: “Umgebungsvariable bearbeiten” suchen
     - Wähle “Umgebungsvariablen”
-    - unter “Systemvariablen”, zu “Path” gehen und “Bearbeiten” auswählen
+    - Unter “Systemvariablen”, zu “Path” gehen und “Bearbeiten” auswählen
     - “Neu” anklicken und den Installationspfad von Git hinzufügen (z.B. C:\Program Files\Git\bin)
-    - auf “OK” klicken und alle Fenster schließen
+    - Auf “OK” klicken und alle Fenster schließen
     - Terminal neu starten und testen, ob git erkannt wird:
-```bash
-git --version
-```
+    ```bash
+    git --version
+    ```
 4. CUDA installieren
-    - überprüfen, ob die eigene [Nvidia GPU CUDA fähig](https://developer.nvidia.com/cuda-gpus) ist
-    - neueste Nvidia Grafikkarten-Softwareversion über z.B. Geforce Experience installieren
+    - Überprüfen, ob die eigene [Nvidia GPU CUDA fähig](https://developer.nvidia.com/cuda-gpus) ist
+    - Neueste Nvidia Grafikkarten-Softwareversion über z.B. Geforce Experience installieren
     - CUDA Toolkit für Windows [herunterladen](https://developer.nvidia.com/cuda-downloads) und installieren
     - Computer neustarten
 5. cuDNN-Bibliothek installieren
     - cuDNN-Bibliothek [herunterladen](https://developer.nvidia.com/cudnn-downloads) (z.B. Windows - x86_64 - Tarball - 12)
-    - heruntergeladene Dateien entpacken
-    - einzelne Dateien (bin, include, lib) in die Verzeichnisse des CUDA-Installationsordners kopieren (z.B. Default: C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.8)
+    - Heruntergeladene Dateien entpacken
+    - Einzelne Dateien (bin, include, lib) in die Verzeichnisse des CUDA-Installationsordners kopieren (z.B. Default: C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.8)
 6. CUDA Umgebungsvariable setzen
     - Windows+S Taste drücken: “Umgebungsvariable bearbeiten” suchen
     - Wähle “Umgebungsvariablen”
-    - unter “Systemvariablen”, zu “Path” gehen und “Bearbeiten” auswählen
+    - Unter “Systemvariablen”, zu “Path” gehen und “Bearbeiten” auswählen
     - “Neu” anklicken und den Installationspfad von CUDA hinzufügen (z.B. C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.8\bin\)
-    - auf “OK” klicken und alle Fenster schließen
+    - Auf “OK” klicken und alle Fenster schließen
     - Terminal neu starten und testen, ob CUDA erkannt wird:
-```bash
-nvcc --version
-```
+    ```bash
+    nvcc --version
+    ```
 7. lm-local-evaluation Repository klonen
-    - Order erstellen, in welchem die Scripte und Modelle gespeichert werden sollen:
+    - Order erstellen, in welchem die Scripte und Modelle gespeichert werden sollen
     ```bash
     mkdir E:\Daten\LM_Benchmarks
     ```
-    
-    - im Windows-Terminal in den neuen Ordner wechseln:
+    - In den neuen Ordner wechseln
     ```bash
     cd /d E:\Daten\LM_Benchmarks
     ```
-
-    - GitHub-Repository klonen:
+    - GitHub-Repository klonen
     ```bash
     git clone https://github.com/NiklasS1999/lm-local-evaluation.git
     ```
-
-    - Repository öffnen:
+    - GitHub-Repository öffnen
     ```bash
     cd lm-local-evaluation
     ```
 8. Virtual Environment anlegen und starten
-    - Virtuelle Umgebung erstellen (z.B. mit “python -m venv venv”)
-    - Windows Ausführungsrechte für den aktuellen Benutzer setzen (z.B. über PowerShell als Administrator: Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser)
-    - Virtuelle Umgebung starten (z.B. mit “venv/Scripts/activate”)
+    - Virtuelle Umgebung erstellen
+    ```bash
+    python -m venv venv
+    ```
+
+    - Windows Ausführungsrechte für den aktuellen Benutzer setzen (über PowerShell als Administrator)
+    ```bash
+    Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+    ```
+
+    - Virtuelle Umgebung starten
+    ```bash
+    venv/Scripts/activate
+    ```
 9. Abhängigkeiten installieren
-    - Pip aktualisieren mit "python.exe -m pip install --upgrade pip"
-    - alle benötigten Abhängigkeiten mit “pip install -r requirements.txt“ installieren
+    - Pip aktualisieren
+    ```bash
+    python.exe -m pip install --upgrade pip
+    ```
+
+    - Benötigten Abhängigkeiten installieren
+    ```bash
+    pip install -r requirements.txt
+    ```
 11. Huggingface Login und Konfiguration
     - Account unter [Huggingface anlegen](https://huggingface.co/join)
-    - einen Access-Token [unter den Accounteinstellungen](https://huggingface.co/settings/tokens) anlegen und kopieren
-    - in der Windows Konsole “huggingface-cli login” eingeben
+    - Access-Token [unter den Accounteinstellungen](https://huggingface.co/settings/tokens) anlegen und kopieren
+    - Über Windows Konsole einloggen
+    ```bash
+    huggingface-cli login
+    ```
+
     - Token versteckt (man sieht die Eingabe nicht!) mit einem Rechtsklick einfügen und Enter drücken
-    - bei der Abfrage Y eingeben und Enter drücken
-    - Huggingface Model-Download Ordner setzen (z.B. über die Konsole mit “setx HF_HOME "E:\Daten\LM_Benchmarks\models_cache"”)
+    - Bei der Rückfrage Y eingeben und Enter drücken
+    - Huggingface Model-Download Ordner setzen
+    ```bash
+    setx HF_HOME "E:\Daten\LM_Benchmarks\models_cache"
+    ```
 
 
 ## 🐧 Anleitung Installation (neues Windows 11 WSL2 Linux System)
