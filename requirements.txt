@@ -1,4 +1,4 @@
-# Installation aller Abhängigkeiten mit: pip install -r requirements_cuda128.txt
+# Installation aller Abhängigkeiten mit: pip install -r requirements.txt
 
 # === Basistools ===
 pip
@@ -21,6 +21,3 @@ pandas
 psutil
 memory_profiler
 matplotlib
-
-# === angepasstes lm-evaluation-harness Repo von Niklas Schwanitz ===
--e git+https://github.com/NiklasS1999/lm-evaluation-harness.git@main#egg=lm-eval

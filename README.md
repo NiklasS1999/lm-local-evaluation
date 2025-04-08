@@ -13,7 +13,7 @@ Dieses Repository basiert auf einem Fork von [EleutherAI/lm-evaluation-harness](
 - ✅ NVIDIA CUDA-Toolkit
 - ✅ NVIDIA cuDNN-Bibliothek
 - ✅ Huggingface-Zugang
-- ✅ GitHub Local-LM Benchmark Library
+- ✅ GitHub lm-local-evaluation Repository
 - ✅ Virtual Environment (empfohlen)
 - ✅ Nano-Texteditor (empfohlen)
 
