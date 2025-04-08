@@ -143,11 +143,6 @@ nano model_latency.py
 Es können entweder einzelne Benchmarks oder alle automatisiert nacheinander ausgeführt werden.
 
 Liste an vorhandenen Benchmarks:
-- model_installationsize.py   -> Messung der Installationsgröße 
-- model_latency.py            -> Messung der Latenz (Model- und Tokenizer-Latenz, Antwortlatenz, Gesamt)
-- model_memoryusage.py        -> Messung der RAM-Speichernutzung (Cold-Start, nur Inferenz, Gesamt, GPU-Speicher)
-- model_parametersize.py      -> Messung der Parametergröße und somit des groben (vermutlichen) Rechenaufwands
-- model_responsequality.py    -> Messung der Antwortqualität durch vordefinierte Benchmarks wie MMLU, HellaSwag, GSM8K, HumanEval, BoolQ
 
 | Benchmark-Skript          | Beschreibung                                                                                      |
 |------------------------------|-------------------------------------------------------------------------------------------------------|
