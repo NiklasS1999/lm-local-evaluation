@@ -32,48 +32,48 @@ Dieses Repository enthält eine lokal integrierte und angepasste Version von [El
 
 ## 🪟 Anleitung Installation (neues Windows 11 System)
 
-1. Python 3.11.0 herunterladen und installieren
+1. **Python 3.11.0 herunterladen und installieren**
     - Python 3.11.0 von der [offiziellen Webseite](https://www.python.org/downloads/release/python-3110/) herunterladen und installieren
     - Überprüfen, ob die Installation geklappt hat:
     ```bash
     python --version
     ```
-2. Git herunterladen und installieren
+2. **Git herunterladen und installieren**
     - Git von der [offiziellen Webseite](https://git-scm.com/downloads/win) herunterladen und installieren
-    - Überprüfen, ob die Installation geklappt hat:
+    - Überprüfen, ob die Installation geklappt hat
     ```bash
     git --version
     ```
-3. Git Umgebungsvariable setzen
+3. **Git Umgebungsvariable setzen**
     - Windows+S Taste drücken: “Umgebungsvariable bearbeiten” suchen
     - Wähle “Umgebungsvariablen”
     - Unter “Systemvariablen”, zu “Path” gehen und “Bearbeiten” auswählen
     - “Neu” anklicken und den Installationspfad von Git hinzufügen (z.B. C:\Program Files\Git\bin)
     - Auf “OK” klicken und alle Fenster schließen
-    - Terminal neu starten und testen, ob git erkannt wird:
+    - Terminal neu starten und testen, ob git erkannt wird
     ```bash
     git --version
     ```
-4. CUDA installieren
+4. **CUDA installieren**
     - Überprüfen, ob die eigene [Nvidia GPU CUDA fähig](https://developer.nvidia.com/cuda-gpus) ist
     - Neueste Nvidia Grafikkarten-Softwareversion über z.B. Geforce Experience installieren
     - CUDA Toolkit für Windows [herunterladen](https://developer.nvidia.com/cuda-downloads) und installieren
     - Computer neustarten
-5. cuDNN-Bibliothek installieren
+5. **cuDNN-Bibliothek installieren**
     - cuDNN-Bibliothek [herunterladen](https://developer.nvidia.com/cudnn-downloads) (z.B. Windows - x86_64 - Tarball - 12)
     - Heruntergeladene Dateien entpacken
     - Einzelne Dateien (bin, include, lib) in die Verzeichnisse des CUDA-Installationsordners kopieren (z.B. Default: C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.8)
-6. CUDA Umgebungsvariable setzen
+6. **CUDA Umgebungsvariable setzen**
     - Windows+S Taste drücken: “Umgebungsvariable bearbeiten” suchen
     - Wähle “Umgebungsvariablen”
     - Unter “Systemvariablen”, zu “Path” gehen und “Bearbeiten” auswählen
     - “Neu” anklicken und den Installationspfad von CUDA hinzufügen (z.B. C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.8\bin\)
     - Auf “OK” klicken und alle Fenster schließen
-    - Terminal neu starten und testen, ob CUDA erkannt wird:
+    - Terminal neu starten und testen, ob CUDA erkannt wird
     ```bash
     nvcc --version
     ```
-7. lm-local-evaluation Repository klonen
+7. **lm-local-evaluation Repository klonen**
     - Order erstellen, in welchem die Scripte und Modelle gespeichert werden sollen
     ```bash
     mkdir E:\Daten\LM_Benchmarks
@@ -90,7 +90,7 @@ Dieses Repository enthält eine lokal integrierte und angepasste Version von [El
     ```bash
     cd lm-local-evaluation
     ```
-8. Virtual Environment anlegen und starten
+8. **Virtual Environment anlegen und starten**
     - Virtuelle Umgebung erstellen
     ```bash
     python -m venv venv
@@ -105,7 +105,7 @@ Dieses Repository enthält eine lokal integrierte und angepasste Version von [El
     ```bash
     venv/Scripts/activate
     ```
-9. Abhängigkeiten installieren
+9. **Abhängigkeiten installieren**
     - Pip aktualisieren
     ```bash
     python.exe -m pip install --upgrade pip
@@ -115,7 +115,7 @@ Dieses Repository enthält eine lokal integrierte und angepasste Version von [El
     ```bash
     pip install -r requirements.txt
     ```
-11. Huggingface Login und Konfiguration
+10. **Huggingface Login und Konfiguration**
     - Account unter [Huggingface anlegen](https://huggingface.co/join)
     - Access-Token [unter den Accounteinstellungen](https://huggingface.co/settings/tokens) anlegen und kopieren
     - Über Windows Konsole einloggen
@@ -133,8 +133,8 @@ Dieses Repository enthält eine lokal integrierte und angepasste Version von [El
 
 ## 🐧 Anleitung Installation (neues Windows 11 WSL2 Linux System)
 
-1. Im BIOS des Mainboards den SVM Mode aktivieren (damit eine Virtualisierung möglich ist)
-2. WSL2 (Ubuntu) installieren und konfigurieren
+1. **Im BIOS des Mainboards den SVM Mode aktivieren (damit eine Virtualisierung möglich ist)**
+2. **WSL2 (Ubuntu) installieren und konfigurieren**
     - in der Konsole folgendes eingeben: “wsl --install -d Ubuntu”
     - in der Konsole folgendes eingeben: “wsl.exe --update”
     - Computer neustarten
@@ -146,21 +146,21 @@ Dieses Repository enthält eine lokal integrierte und angepasste Version von [El
         - “sudo apt install -y software-properties-common”
         - “sudo add-apt-repository ppa:deadsnakes/ppa”
         - “sudo apt install -y python3.11 python3.11-venv python3.11-distutils python3.11-dev git build-essential nano”
-3. CUDA installieren
+3. **CUDA installieren**
     - wie in der Windows Anleitung unter Punkt 4. beschrieben vorgehen (für WSL2 Ubuntu)
     - CUDA-Toolkit direkt unter Ubuntu installieren (z.B. mit “sudo apt install -y nvidia-cuda-toolkit”)
-4. lm-local-evaluation Repository klonen
+4. **lm-local-evaluation Repository klonen**
     - Order erstellen, in welchem die Scripte und Modelle gespeichert werden sollen (z.B. "mkdir LM_Benchmarks")
     - im Ubuntu-Terminal in den neuen Ordner wechseln (z.B. “cd ./Daten/LM_Benchmarks”)
     - Repository klonen mit: “git clone https://github.com/NiklasS1999/lm-local-evaluation.git”
     - Repository öffnen mit: “cd lm-local-evaluation”
-6. Virtual Environment anlegen und starten
+5. **Virtual Environment anlegen und starten**
     - VENV anlegen mit: “python3.11 -m venv venv”
     - VENV aktivieren mit: “source venv/bin/activate”
-7. Abhängigkeiten installieren
+6. **Abhängigkeiten installieren**
     - Pip aktualisieren mit "python.exe -m pip install --upgrade pip"
     - alle benötigten Abhängigkeiten mit “pip install -r requirements.txt“ installieren
-8. Huggingface Login und Konfiguration
+7. **Huggingface Login und Konfiguration**
     - Account unter [Huggingface anlegen](https://huggingface.co/join)
     - einen Access-Token [unter den Accounteinstellungen](https://huggingface.co/settings/tokens) anlegen und kopieren
     - in der Ubuntu Konsole “huggingface-cli login” eingeben
