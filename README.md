@@ -131,12 +131,12 @@ Dies geschieht in den einzelnen Benchmark-Scripten.<br>
 Bearbeiten der Globalen Konfiguration:
 ```bash
 cd ./benchmarks # in den Benchmark-Ordner wechseln
-nano global_config.py
+nano global_config.py # nur unter Linux
 ```
 Bearbeiten einer lokalen Konfiguration:
 ```bash
 cd ./benchmarks # in den Benchmark-Ordner wechseln
-nano model_latency.py
+nano model_latency.py # nur unter Linux
 ```
 
 ---
