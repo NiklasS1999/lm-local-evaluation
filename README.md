@@ -190,7 +190,7 @@ Dies ist vorallem auf den Antwortqualität-Benchmark HumanEval zurückzuführen.
 Je nach Language Modell kann es sein, das in der Konsole Fehler auftreten. Besonders bei den Antwortqualität-Benchmarks kann dies aufgrund von Inkompatibilität vorkommen.<br>
 Getestet wurden lediglich die drei in der Konfiguration hinterlegten Modelle.<br>
 
-Wenn ein anderes Modell getestet werden soll, muss in der Konfiguration unter "models": der Huggignface-pFad zum Language Model angegeben werden.<br>
+Wenn ein anderes Modell getestet werden soll, muss in der Konfiguration unter "models": der Huggingface-Pfad zum Language Model angegeben werden.<br>
 Dementsprechend können nur Language Models gebenchmarkt werden, die auch in Huggignface öffentlich zugänglich sind.<br>
 
 Bei der ersten Ausführung eines Benchmarks werden die entsprechend in der Globalen konfiguration hinterlegten Modelle von Huggingface heruntergeladen.<br>
