@@ -76,16 +76,19 @@ Dieses Repository enthält eine lokal integrierte und angepasste Version von [El
 7. **lm-local-evaluation Repository klonen**
     - Order erstellen, in welchem die Scripte und Modelle gespeichert werden sollen
     ```bash
-    mkdir E:\Daten\LM_Benchmarks
+    mkdir LM_Benchmarks
     ```
+
     - In den neuen Ordner wechseln
     ```bash
-    cd /d E:\Daten\LM_Benchmarks
+    cd .\LM_Benchmarks
     ```
+
     - GitHub-Repository klonen
     ```bash
     git clone https://github.com/NiklasS1999/lm-local-evaluation.git
     ```
+
     - GitHub-Repository öffnen
     ```bash
     cd lm-local-evaluation
@@ -111,14 +114,14 @@ Dieses Repository enthält eine lokal integrierte und angepasste Version von [El
     python.exe -m pip install --upgrade pip
     ```
 
-    - Benötigten Abhängigkeiten installieren
+    - Benötigte Abhängigkeiten installieren
     ```bash
     pip install -r requirements.txt
     ```
 10. **Huggingface Login und Konfiguration**
     - Account unter [Huggingface anlegen](https://huggingface.co/join)
     - Access-Token [unter den Accounteinstellungen](https://huggingface.co/settings/tokens) anlegen und kopieren
-    - Über Windows Konsole einloggen
+    - Über Windows-Konsole einloggen
     ```bash
     huggingface-cli login
     ```
@@ -133,39 +136,96 @@ Dieses Repository enthält eine lokal integrierte und angepasste Version von [El
 
 ## 🐧 Anleitung Installation (neues Windows 11 WSL2 Linux System)
 
-1. **Im BIOS des Mainboards den SVM Mode aktivieren (damit eine Virtualisierung möglich ist)**
-2. **WSL2 (Ubuntu) installieren und konfigurieren**
-    - in der Konsole folgendes eingeben: “wsl --install -d Ubuntu”
-    - in der Konsole folgendes eingeben: “wsl.exe --update”
+1. **SVM-Mode aktivieren**
+    - Computer neustarten
+    - BIOS-Zugriffstaste während des Bootvorgangs klicken (meist F1 / F2 / Entf)
+    - Im BIOS den SVM-Mode aktivieren (damit eine Virtualisierung möglich ist)
+2. **WSL2 installieren und konfigurieren**
+    - WSL (Ubuntu) installieren
+    ```bash
+    wsl --install -d Ubuntu
+    ```
+
+    - WSL (Ubuntu) updaten
+    ```bash
+    wsl.exe --update
+    ```
+
     - Computer neustarten
     - Windows+S Taste drücken: “Ubuntu” suchen und öffnen
     - Benutzernamen und Passwort setzen
-    - Linux Version aktualisieren (z.B. mit “sudo apt update && sudo apt upgrade -y”)
-    - Paketinstaller aktualisieren (z.B. mit “sudo apt update”)
+    - Linux Version aktualisieren
+    ```bash
+    sudo apt update && sudo apt upgrade -y
+    ```
+
+    - Paketinstaller aktualisieren
+    ```bash
+    sudo apt update
+    ```
+
     - Python 3.11, Venv, Distutils, Git, Essentials, Nano installieren
-        - “sudo apt install -y software-properties-common”
-        - “sudo add-apt-repository ppa:deadsnakes/ppa”
-        - “sudo apt install -y python3.11 python3.11-venv python3.11-distutils python3.11-dev git build-essential nano”
+    ```bash
+    sudo apt install -y software-properties-common
+    sudo add-apt-repository ppa:deadsnakes/ppa
+    sudo apt install -y python3.11 python3.11-venv python3.11-distutils python3.11-dev git build-essential nano
+    ```
 3. **CUDA installieren**
-    - wie in der Windows Anleitung unter Punkt 4. beschrieben vorgehen (für WSL2 Ubuntu)
-    - CUDA-Toolkit direkt unter Ubuntu installieren (z.B. mit “sudo apt install -y nvidia-cuda-toolkit”)
+    - Wie in der oberen Windows Anleitung unter Punkt 4. beschrieben vorgehen (für WSL2 Ubuntu)
+    - CUDA-Toolkit direkt unter Ubuntu installieren
+    ```bash
+    sudo apt install -y nvidia-cuda-toolkit
+    ```
 4. **lm-local-evaluation Repository klonen**
-    - Order erstellen, in welchem die Scripte und Modelle gespeichert werden sollen (z.B. "mkdir LM_Benchmarks")
-    - im Ubuntu-Terminal in den neuen Ordner wechseln (z.B. “cd ./Daten/LM_Benchmarks”)
-    - Repository klonen mit: “git clone https://github.com/NiklasS1999/lm-local-evaluation.git”
-    - Repository öffnen mit: “cd lm-local-evaluation”
+    - Order erstellen, in welchem die Scripte und Modelle gespeichert werden sollen
+    ```bash
+    mkdir LM_Benchmarks
+    ```
+
+    - In den neuen Ordner wechseln
+    ```bash
+    cd ./LM_Benchmarks
+    ```
+
+    - GitHub-Repository klonen
+    ```bash
+    git clone https://github.com/NiklasS1999/lm-local-evaluation.git
+    ```
+
+    - GitHub-Repository öffnen
+    ```bash
+    cd lm-local-evaluation
+    ```
 5. **Virtual Environment anlegen und starten**
-    - VENV anlegen mit: “python3.11 -m venv venv”
-    - VENV aktivieren mit: “source venv/bin/activate”
+    - Virtuelle Umgebung erstellen
+    ```bash
+    python3.11 -m venv venv
+    ```
+
+    - Virtuelle Umgebung starten
+    ```bash
+    source venv/bin/activate
+    ```
 6. **Abhängigkeiten installieren**
-    - Pip aktualisieren mit "python.exe -m pip install --upgrade pip"
-    - alle benötigten Abhängigkeiten mit “pip install -r requirements.txt“ installieren
+    - Pip aktualisieren
+    ```bash
+    python.exe -m pip install --upgrade pip
+    ```
+
+    - Benötigte Abhängigkeiten installieren
+    ```bash
+    pip install -r requirements.txt
+    ```
 7. **Huggingface Login und Konfiguration**
     - Account unter [Huggingface anlegen](https://huggingface.co/join)
-    - einen Access-Token [unter den Accounteinstellungen](https://huggingface.co/settings/tokens) anlegen und kopieren
-    - in der Ubuntu Konsole “huggingface-cli login” eingeben
+    - Access-Token [unter den Accounteinstellungen](https://huggingface.co/settings/tokens) anlegen und kopieren
+    - Über Ubuntu-Konsole einloggen
+    ```bash
+    huggingface-cli login
+    ```
+
     - Token versteckt (man sieht die Eingabe nicht!) mit einem Rechtsklick einfügen und Enter drücken
-    - bei der Abfrage Y eingeben und Enter drücken
+    - Bei der Abfrage Y eingeben und Enter drücken
 
 ---
 
@@ -179,13 +239,16 @@ Dies geschieht in den einzelnen Benchmark-Scripten.<br>
 
 Bearbeiten der Globalen Konfiguration:
 ```bash
-cd ./benchmarks # in den Benchmark-Ordner wechseln
+cd ./benchmarks # in den Benchmark-Ordner wechseln, wenn noch nicht getan
 nano global_config.py # nur unter Linux
+notepad global_config.py # nur unter Windows
 ```
+
 Bearbeiten einer lokalen Konfiguration:
 ```bash
-cd ./benchmarks # in den Benchmark-Ordner wechseln
+cd ./benchmarks # in den Benchmark-Ordner wechseln, wenn noch nicht getan
 nano model_latency.py # nur unter Linux
+notepad model_latency.py # nur unter Windows
 ```
 
 ---
@@ -206,12 +269,13 @@ Liste an vorhandenen Benchmarks:
 
 Ausführung eines einzelnen Benchmarks:
 ```bash
-cd ./benchmarks # in den Benchmark-Ordner wechseln
+cd ./benchmarks # in den Benchmark-Ordner wechseln, wenn noch nicht getan
 python model_installationsize.py
 ```
+
 Ausführung aller Benchmarks inkl. Auswertung:
 ```bash
-cd ./benchmarks # in den Benchmark-Ordner wechseln
+cd ./benchmarks # in den Benchmark-Ordner wechseln, wenn noch nicht getan
 python run_all_benchmarks.py
 ```
 
@@ -229,6 +293,7 @@ Des Weiteren wird eine Auswertung bezüglich der jeweiligen Vor- und Nachteile e
 
 Die Auswertung kann auch manuell über den folgenden Befehl erstellt werden:
 ```bash
+cd ./benchmarks # in den Benchmark-Ordner wechseln, wenn noch nicht getan
 python benchmark_overview.py
 ```
 Es werden dann jedoch nur die Ergebnisse dargestellt, welche auch vorhanden sind (wo bisher Benchmarks durchgeführt wurden).
