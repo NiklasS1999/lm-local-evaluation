@@ -131,6 +131,10 @@ Bearbeiten der Globalen Konfiguration:
 ```bash
 nano global_config.py
 ```
+Bearbeiten einer lokalen Konfiguration:
+```bash
+nano model_latency.py
+```
 
 ---
 
@@ -138,12 +142,12 @@ nano global_config.py
 
 Es können entweder einzelne Benchmarks oder alle automatisiert nacheinander ausgeführt werden.
 
-Liste an vorhandenen Benchmarks:<br>
-model_installationsize.py   -> Messung der Installationsgröße der einzelnen Modelle<br>
-model_latency.py            -> Messung der Latenz (Model- und Tokenizer-Laden Latenz, Antwortlatenz, Gesamt)<br>
-model_memoryusage.py        -> Messung der RAM-Speichernutzung (Cold-Start, nur Inferenz, GPU-Speicher)<br>
-model_parametersize.py      -> Messung der Parametergröße und somit des groben (vermutlichen) Rechenaufwands<br>
-model_responsequality.py    -> Messung der Antwortqualität durch vordefinierte Benchmarks des [EleutherAI/lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness) Repository wie MMLU, HellaSwag, GSM8K, HumanEval, BoolQ<br>
+Liste an vorhandenen Benchmarks:
+- model_installationsize.py   -> Messung der Installationsgröße 
+- model_latency.py            -> Messung der Latenz (Model- und Tokenizer-Latenz, Antwortlatenz, Gesamt)
+- model_memoryusage.py        -> Messung der RAM-Speichernutzung (Cold-Start, nur Inferenz, Gesamt, GPU-Speicher)
+- model_parametersize.py      -> Messung der Parametergröße und somit des groben (vermutlichen) Rechenaufwands
+- model_responsequality.py    -> Messung der Antwortqualität durch vordefinierte Benchmarks wie MMLU, HellaSwag, GSM8K, HumanEval, BoolQ
 
 Ausführung eines einzelnen Benchmarks:
 ```bash
@@ -160,8 +164,7 @@ python run_all_benchmarks.py
 
 Während der Ausführung eines Benchmarks werden die Ergebnisse in der Konsole ausgegeben. Außerdem werden die Ergebnisse am Ende des Benchmarks entweder in eine .csv oder eine .json Datei mit dem Namen des Benchmarks sowie einem Zeitstempel geschrieben und unter ./results/Modell_Name abgespeichert.<br>
 
-Wenn alle Benchmarks mithilfe von run_all_benchmarks.py ausgeführt werden, wird am Ende eine Auswertung durchgeführt.<br>
-Durch diese wird eine Übersicht der wichtigsten Ergebnisse aller durchgeführten Benchmarks in der Konsole ausgegeben, sowie die wichtigsten Ergebnisse unter ./results/benchmark_overview.csv abgespeichert.<br>
+Wenn alle Benchmarks mithilfe von run_all_benchmarks.py ausgeführt werden, wird am Ende eine Auswertung durchgeführt. Durch diese wird eine Übersicht der wichtigsten Ergebnisse aller durchgeführten Benchmarks in der Konsole ausgegeben, sowie die wichtigsten Ergebnisse unter ./results/benchmark_overview.csv abgespeichert.<br>
 
 Außerdem werden im Rahmen der Auswertung verschiedene Plots (Balkendiagramme) zum Vergleich der evaluierten Language Models generiert und unter ./results/result_plots abgespeichert.<br>
 
