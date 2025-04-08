@@ -73,17 +73,16 @@ git --version
 ```bash
 nvcc --version
 ```
-8. lm-local-evaluation Repository klonen
-- Order erstellen, in welchem die Scripte und Modelle gespeichert werden sollen:
-
-```bash
-mkdir E:\Daten\LM_Benchmarks
-```
-
-- im Windows-Terminal in den neuen Ordner wechseln:
-```bash
-cd /d E:\Daten\LM_Benchmarks
-```
+7. lm-local-evaluation Repository klonen
+    - Order erstellen, in welchem die Scripte und Modelle gespeichert werden sollen:
+    ```bash
+    mkdir E:\Daten\LM_Benchmarks
+    ```
+    - im Windows-Terminal in den neuen Ordner wechseln:
+    ```bash
+    cd /d E:\Daten\LM_Benchmarks
+    ```
+    
 - GitHub-Repository klonen:
 ```bash
 git clone https://github.com/NiklasS1999/lm-local-evaluation.git
@@ -92,7 +91,7 @@ git clone https://github.com/NiklasS1999/lm-local-evaluation.git
 ```bash
 cd lm-local-evaluation
 ```
-7. Virtual Environment anlegen und starten
+8. Virtual Environment anlegen und starten
     - Virtuelle Umgebung erstellen (z.B. mit “python -m venv venv”)
     - Windows Ausführungsrechte für den aktuellen Benutzer setzen (z.B. über PowerShell als Administrator: Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser)
     - Virtuelle Umgebung starten (z.B. mit “venv/Scripts/activate”)
