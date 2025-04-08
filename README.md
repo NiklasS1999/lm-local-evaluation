@@ -1,11 +1,18 @@
 # 🧠 LM-Local-Evaluation
 
-Mithilfe dieses Repositories können Language Models wie **Qwen**, **Gemma** oder **LLaMA 3** lokal auf Desktop-Hardware mithilfe von verschiedenen Benchmarks evaluiert sowie verglichen werden.
-Dazu werden je Modell die Installationsgröße, Latenz, RAM-Speichernutzung, GPU-Speichernutzung, Parametergröße sowie die Antwortqualität mithilfe von passenden Metriken ermittelt, ausgewertet und grafisch dargestellt.
+Mithilfe dieses Repositories können Language Models wie **Qwen**, **Gemma** oder **LLaMA 3** evaluiert sowie untereinander verglichen werden.
+
+Dazu werden je Modell folgende Kategorien gemessen, ausgewertet und grafisch dargestellt:
+- Installationsgröße
+- Latenz
+- RAM-Speichernutzung
+- GPU-Speichernutzung
+- Parametergröße
+- Antwortqualität
 
 Dies dient dem Vergleich von verschiedenen Language Models zur lokalen Nutzung als persönlichen Assistenten.
 Dadurch kann herausgefunden werden, ob der Einsatz eines bestimmten Language Models für eine bestimmte Hardware-Konfiguration, beispielsweise ein mobiles Endgeräts, sinnvoll ist.
-Je nach Benutzer-Präferenz können hierbei andere Schwerpunkte gesetzt werden und entsprechend eine Auswahl getroffen werden. Dazu soll dieses Repository unterstützen.
+Je nach Benutzer-Präferenz können hierbei andere Schwerpunkte gesetzt werden und entsprechend eine Auswahl getroffen werden. Dabei soll dieses Repository unterstützen.
 
 Dieses Repository enthält eine lokal integrierte und angepasste Version von [EleutherAI/lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness) für die Ermittlung der Antwortqualität, daher muss kein separates GitHub-Repo geklont werden. Alle Änderungen sind enthalten und einsatzbereit.
 
