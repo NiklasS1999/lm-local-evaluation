@@ -40,14 +40,20 @@ python --version
 ```
 2. Git herunterladen und installieren
     - Git von der [offiziellen Webseite](https://git-scm.com/downloads/win) herunterladen und installieren
-    - mit "git --version" in der Konsole prüfen, ob die Installation geklappt hat
+    - Überprüfen, ob die Installation geklappt hat:
+```bash
+git --version
+```
 3. Git Umgebungsvariable setzen
     - Windows+S Taste drücken: “Umgebungsvariable bearbeiten” suchen
     - Wähle “Umgebungsvariablen”
     - unter “Systemvariablen”, zu “Path” gehen und “Bearbeiten” auswählen
     - “Neu” anklicken und den Installationspfad von Git hinzufügen (z.B. C:\Program Files\Git\bin)
     - auf “OK” klicken und alle Fenster schließen
-    - Terminal neu starten und mit “git --version” testen, ob git erkannt wird
+    - Terminal neu starten und testen, ob git erkannt wird:
+```bash
+git --version
+```
 4. CUDA installieren
     - überprüfen, ob die eigene [Nvidia GPU CUDA fähig](https://developer.nvidia.com/cuda-gpus) ist
     - neueste Nvidia Grafikkarten-Softwareversion über z.B. Geforce Experience installieren
@@ -63,12 +69,27 @@ python --version
     - unter “Systemvariablen”, zu “Path” gehen und “Bearbeiten” auswählen
     - “Neu” anklicken und den Installationspfad von CUDA hinzufügen (z.B. C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.8\bin\)
     - auf “OK” klicken und alle Fenster schließen
-    - Terminal neu starten und mit “nvcc --version” testen, ob CUDA erkannt wird
+    - Terminal neu starten und testen, ob CUDA erkannt wird:
+```bash
+nvcc --version
+```
 8. lm-local-evaluation Repository klonen
-    - Order erstellen, in welchem die Scripte und Modelle gespeichert werden sollen (z.B. E:\Daten\LM_Benchmarks)
-    - im Windows-Terminal in den neuen Ordner wechseln (z.B. “cd /d E:\Daten\LM_Benchmarks”)
-    - Repository klonen mit: “git clone https://github.com/NiklasS1999/lm-local-evaluation.git”
-    - Repository öffnen mit: “cd lm-local-evaluation”
+    - Order erstellen, in welchem die Scripte und Modelle gespeichert werden sollen:
+```bash
+mkdir E:\Daten\LM_Benchmarks
+```
+    - im Windows-Terminal in den neuen Ordner wechseln
+```bash
+cd /d E:\Daten\LM_Benchmarks
+```
+    - GitHub-Repository klonen:
+```bash
+git clone https://github.com/NiklasS1999/lm-local-evaluation.git
+```
+    - Repository öffnen:
+```bash
+cd lm-local-evaluation
+```
 7. Virtual Environment anlegen und starten
     - Virtuelle Umgebung erstellen (z.B. mit “python -m venv venv”)
     - Windows Ausführungsrechte für den aktuellen Benutzer setzen (z.B. über PowerShell als Administrator: Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser)
