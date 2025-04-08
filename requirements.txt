@@ -1,6 +1,7 @@
 # Installation aller Abhängigkeiten mit: pip install -r requirements.txt
 
 # === Basistools ===
+nano
 pip
 setuptools
 wheel
