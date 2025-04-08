@@ -74,19 +74,21 @@ git --version
 nvcc --version
 ```
 8. lm-local-evaluation Repository klonen
-    - Order erstellen, in welchem die Scripte und Modelle gespeichert werden sollen:
+- Order erstellen, in welchem die Scripte und Modelle gespeichert werden sollen:
+
 ```bash
 mkdir E:\Daten\LM_Benchmarks
 ```
-    - im Windows-Terminal in den neuen Ordner wechseln
+
+- im Windows-Terminal in den neuen Ordner wechseln:
 ```bash
 cd /d E:\Daten\LM_Benchmarks
 ```
-    - GitHub-Repository klonen:
+- GitHub-Repository klonen:
 ```bash
 git clone https://github.com/NiklasS1999/lm-local-evaluation.git
 ```
-    - Repository öffnen:
+- Repository öffnen:
 ```bash
 cd lm-local-evaluation
 ```
