@@ -64,9 +64,9 @@ Dieses Repository enthält eine lokal integrierte und angepasste Version von [El
 7. Virtual Environment anlegen und starten
     - Order erstellen, in welchem die Scripte und Modelle gespeichert werden sollen (z.B. E:\Daten\LM_Benchmarks)
     - im Windows-Terminal in den neuen Ordner wechseln (z.B. “cd /d E:\Daten\LM_Benchmarks”)
-    - Virtuelle Umgebung erstellen (z.B. mit “py -3.11 -m venv venv”)
+    - Virtuelle Umgebung erstellen (z.B. mit “python -m venv venv”)
     - Windows Ausführungsrechte für den aktuellen Benutzer setzen (z.B. über PowerShell als Administrator: Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser)
-    - Virtuelle Umgebung starten (z.B. mit “./venv/Scripts/activate”)
+    - Virtuelle Umgebung starten (z.B. mit “venv/Scripts/activate”)
 8. lm-local-evaluation Repository klonen
     - Repository klonen mit: “git clone https://github.com/NiklasS1999/lm-local-evaluation.git”
     - Repository öffnen mit: “cd lm-local-evaluation”
