@@ -78,19 +78,21 @@ nvcc --version
     ```bash
     mkdir E:\Daten\LM_Benchmarks
     ```
+    
     - im Windows-Terminal in den neuen Ordner wechseln:
     ```bash
     cd /d E:\Daten\LM_Benchmarks
     ```
-    
-- GitHub-Repository klonen:
-```bash
-git clone https://github.com/NiklasS1999/lm-local-evaluation.git
-```
-- Repository öffnen:
-```bash
-cd lm-local-evaluation
-```
+
+    - GitHub-Repository klonen:
+    ```bash
+    git clone https://github.com/NiklasS1999/lm-local-evaluation.git
+    ```
+
+    - Repository öffnen:
+    ```bash
+    cd lm-local-evaluation
+    ```
 8. Virtual Environment anlegen und starten
     - Virtuelle Umgebung erstellen (z.B. mit “python -m venv venv”)
     - Windows Ausführungsrechte für den aktuellen Benutzer setzen (z.B. über PowerShell als Administrator: Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser)
