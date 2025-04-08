@@ -61,18 +61,19 @@ Dieses Repository enthält eine lokal integrierte und angepasste Version von [El
     - “Neu” anklicken und den Installationspfad von CUDA hinzufügen (z.B. C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.8\bin\)
     - auf “OK” klicken und alle Fenster schließen
     - Terminal neu starten und mit “nvcc --version” testen, ob CUDA erkannt wird
-7. Virtual Environment anlegen und starten
+8. lm-local-evaluation Repository klonen
     - Order erstellen, in welchem die Scripte und Modelle gespeichert werden sollen (z.B. E:\Daten\LM_Benchmarks)
     - im Windows-Terminal in den neuen Ordner wechseln (z.B. “cd /d E:\Daten\LM_Benchmarks”)
+    - Repository klonen mit: “git clone https://github.com/NiklasS1999/lm-local-evaluation.git”
+    - Repository öffnen mit: “cd lm-local-evaluation”
+7. Virtual Environment anlegen und starten
     - Virtuelle Umgebung erstellen (z.B. mit “python -m venv venv”)
     - Windows Ausführungsrechte für den aktuellen Benutzer setzen (z.B. über PowerShell als Administrator: Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser)
     - Virtuelle Umgebung starten (z.B. mit “venv/Scripts/activate”)
-8. lm-local-evaluation Repository klonen
-    - Repository klonen mit: “git clone https://github.com/NiklasS1999/lm-local-evaluation.git”
-    - Repository öffnen mit: “cd lm-local-evaluation”
 9. Abhängigkeiten installieren
+    - Pip aktualisieren mit "python.exe -m pip install --upgrade pip"
     - alle benötigten Abhängigkeiten mit “pip install -r requirements.txt“ installieren
-10. Huggingface Login und Konfiguration
+11. Huggingface Login und Konfiguration
     - Account unter [Huggingface anlegen](https://huggingface.co/join)
     - einen Access-Token [unter den Accounteinstellungen](https://huggingface.co/settings/tokens) anlegen und kopieren
     - in der Windows Konsole “huggingface-cli login” eingeben
@@ -99,18 +100,18 @@ Dieses Repository enthält eine lokal integrierte und angepasste Version von [El
 3. CUDA installieren
     - wie in der Windows Anleitung unter Punkt 4. beschrieben vorgehen (für WSL2 Ubuntu)
     - CUDA-Toolkit direkt unter Ubuntu installieren (z.B. mit “sudo apt install -y nvidia-cuda-toolkit”)
-4. Virtual Environment anlegen und starten
-    - Order erstellen, in welchem die Scripte und Modelle gespeichert werden sollen
+4. lm-local-evaluation Repository klonen
+    - Order erstellen, in welchem die Scripte und Modelle gespeichert werden sollen (z.B. "mkdir LM_Benchmarks")
     - im Ubuntu-Terminal in den neuen Ordner wechseln (z.B. “cd ./Daten/LM_Benchmarks”)
-    - VENV anlegen mit: “python3.11 -m venv venv”
-    - VENV aktivieren mit: “source venv/bin/activate”
-5. lm-local-evaluation Repository klonen
     - Repository klonen mit: “git clone https://github.com/NiklasS1999/lm-local-evaluation.git”
     - Repository öffnen mit: “cd lm-local-evaluation”
-6. Abhängigkeiten installieren
-    - Pip aktualisieren mit “pip install --upgrade pip”
+6. Virtual Environment anlegen und starten
+    - VENV anlegen mit: “python3.11 -m venv venv”
+    - VENV aktivieren mit: “source venv/bin/activate”
+7. Abhängigkeiten installieren
+    - Pip aktualisieren mit "python.exe -m pip install --upgrade pip"
     - alle benötigten Abhängigkeiten mit “pip install -r requirements.txt“ installieren
-7. Huggingface Login und Konfiguration
+8. Huggingface Login und Konfiguration
     - Account unter [Huggingface anlegen](https://huggingface.co/join)
     - einen Access-Token [unter den Accounteinstellungen](https://huggingface.co/settings/tokens) anlegen und kopieren
     - in der Ubuntu Konsole “huggingface-cli login” eingeben
@@ -129,10 +130,12 @@ Dies geschieht in den einzelnen Benchmark-Scripten.<br>
 
 Bearbeiten der Globalen Konfiguration:
 ```bash
+cd ./benchmarks # in den Benchmark-Ordner wechseln
 nano global_config.py
 ```
 Bearbeiten einer lokalen Konfiguration:
 ```bash
+cd ./benchmarks # in den Benchmark-Ordner wechseln
 nano model_latency.py
 ```
 
@@ -154,10 +157,12 @@ Liste an vorhandenen Benchmarks:
 
 Ausführung eines einzelnen Benchmarks:
 ```bash
+cd ./benchmarks # in den Benchmark-Ordner wechseln
 python model_installationsize.py
 ```
 Ausführung aller Benchmarks inkl. Auswertung:
 ```bash
+cd ./benchmarks # in den Benchmark-Ordner wechseln
 python run_all_benchmarks.py
 ```
 
