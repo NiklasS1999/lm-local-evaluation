@@ -1,5 +1,6 @@
 import subprocess
 import os
+import sys
 from system_info import print_system_info
 
 # Setze Umgebungsvariable im aktuellen Prozess
@@ -18,10 +19,14 @@ def run_benchmark_scripts():
     for script in scripts:
         print(f"\n--- Starte: {script} ---")
         try:
-            subprocess.run(["python", script], check=True, env={**os.environ})
+            subprocess.run(
+                [sys.executable, script],
+                check=True,
+                env={**os.environ}
+            )
             print(f"--- Fertig: {script} ---\n")
         except subprocess.CalledProcessError as e:
-            print(f"Fehler beim Ausführen von {script}: {e}")
+            print(f"❌ Fehler beim Ausführen von {script}: {e}")
             break
 
 if __name__ == "__main__":
