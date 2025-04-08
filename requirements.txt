@@ -15,6 +15,7 @@ transformers
 accelerate==0.27.2
 peft==0.7.1
 sentencepiece
+datasets
 
 # === Utils & Metriken ===
 numpy==1.24.4
