@@ -306,8 +306,8 @@ Manche Antwortqualität-Benchmarks sind nur unter einem Linux-Betriebssystem aus
 
 Da das Projekt vollständig mit Python umgesetzt wurde, ist der Code betriebssystemunabhängig, jedoch wurde der Code nur unter Windows 11 und WSL2-Linux (Ubuntu) getestet.<br>
 
-Die Ausführungszeit ist je nach Konfiguration sehr unterscheidlich, in der von mir bereitgestellten Konfiguration dauerte die vollständige Auswertung insgesamt 19 Stunden mit einer GeForce RTX 3060.<br>
-Dies ist vorallem auf den Antwortqualität-Benchmark HumanEval zurückzuführen. Dieser dauerte alleine rund 15 Stunden für alle drei Language Modelle.<br>
+Die Ausführungszeit ist je nach Konfiguration sehr unterschiedlich, in der von mir bereitgestellten Konfiguration dauerte die vollständige Auswertung insgesamt 19 Stunden mit einer GeForce RTX 3060.<br>
+Dies ist vorallem auf den Antwortqualität-Benchmark HumanEval zurückzuführen. Dieser dauerte alleine insgesamt rund 15 Stunden für alle drei Language Modelle.<br>
 
 Je nach Language Modell kann es sein, das in der Konsole Fehler auftreten. Besonders bei den Antwortqualität-Benchmarks kann dies aufgrund von Inkompatibilität vorkommen.<br>
 Getestet wurden lediglich die drei in der Konfiguration hinterlegten Modelle.<br>
@@ -315,7 +315,7 @@ Getestet wurden lediglich die drei in der Konfiguration hinterlegten Modelle.<br
 Wenn ein anderes Modell getestet werden soll, muss in der Konfiguration unter "models": der Huggingface-Pfad zum Language Model angegeben werden.<br>
 Dementsprechend können nur Language Models gebenchmarkt werden, die auch in Huggignface öffentlich zugänglich sind.<br>
 
-Bei der ersten Ausführung eines Benchmarks werden die entsprechend in der Globalen konfiguration hinterlegten Modelle von Huggingface heruntergeladen.<br>
+Bei der ersten Ausführung eines Benchmarks werden die entsprechend in der Globalen Konfiguration hinterlegten Modelle von Huggingface heruntergeladen.<br>
 Dies kann je nach Modellgröße und Internetverbindung mehrere Stunden in Anspruch nehmen.<br>
 
 
