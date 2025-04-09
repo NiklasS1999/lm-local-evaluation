@@ -69,6 +69,20 @@ def get_model_directory(cache_dir, model_name):
     # HuggingFace speichert Modelle in diesem Format ab
     return os.path.join(cache_dir, f"models--{model_name.replace('/', '--')}")
 
+def ensure_model_is_available(model_name, cache_dir, device):
+    """Prüft, ob das Modell vollständig lokal verfügbar ist – lädt es bei Bedarf herunter."""
+    try:
+        with io.StringIO() as buf, redirect_stdout(buf), redirect_stderr(buf):
+            AutoTokenizer.from_pretrained(model_name, cache_dir=cache_dir, local_files_only=True)
+            AutoModelForCausalLM.from_pretrained(model_name, cache_dir=cache_dir, local_files_only=True).to(device)
+        print(f"\n📁 Modell bereits lokal vorhanden: {model_name}")
+    except Exception as e:
+        print(f"\n⚠️  Modell nicht vollständig oder beschädigt. Es wird heruntergeladen: {model_name}")
+        with io.StringIO() as buf, redirect_stdout(buf), redirect_stderr(buf):
+            AutoTokenizer.from_pretrained(model_name, cache_dir=cache_dir)
+            AutoModelForCausalLM.from_pretrained(model_name, cache_dir=cache_dir).to(device)
+        print(f"✅ Modell erfolgreich heruntergeladen: {model_name}")
+
 def save_results_to_csv(csv_path, model_name, formatted_size, size_in_bytes):
     """Speichert die Ergebnisse der Speicherverbrauchsanalyse in eine CSV-Datei."""
     with open(csv_path, "w", encoding="utf-8", newline='') as f:
@@ -81,6 +95,7 @@ def save_results_to_csv(csv_path, model_name, formatted_size, size_in_bytes):
 # ==========================
 
 if __name__ == '__main__':
+    # Art der Analyse anzeigen
     print("--- Festplatten-Speicherverbrauch Analyse ---\n")
     print("=" * 60)
 
@@ -89,6 +104,9 @@ if __name__ == '__main__':
     os.makedirs(results_dir, exist_ok=True)
 
     for model_name in models:
+        # Prüfen ob das Modell bereits lokal vorhanden ist
+        ensure_model_is_available(model_name, cache_dir, device)
+
         # Zeit messen und Startzeit anzeigen
         now = datetime.now()
         start_time = now.strftime("%d.%m.%Y, %H:%M:%S")
@@ -97,12 +115,6 @@ if __name__ == '__main__':
 
         # Model-Speicherpfad bestimmen
         model_dir = get_model_directory(cache_dir, model_name)
-    
-        # Modell und Tokenizer laden (prüfen ob vorhanden und wenn nicht herunterladen)
-        print(f"Überprüfe Speicherverbrauch von: {model_name}")
-        with io.StringIO() as buf, redirect_stdout(buf), redirect_stderr(buf):
-            tokenizer = AutoTokenizer.from_pretrained(model_name, cache_dir=cache_dir)
-            model = AutoModelForCausalLM.from_pretrained(model_name, cache_dir=cache_dir).to(device)
 
         # Speicherverbrauch berechnen
         size_in_bytes = get_directory_size(model_dir)

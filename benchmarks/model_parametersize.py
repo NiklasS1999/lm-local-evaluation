@@ -13,7 +13,7 @@ from datetime import datetime  # Zeitstempel erstellen
 
 # Drittanbieter-Bibliotheken
 import torch  # PyTorch für Modell-Handling
-from transformers import AutoModelForCausalLM, logging as transformers_logging  # Transformers
+from transformers import AutoModelForCausalLM, AutoTokenizer, logging as transformers_logging  # Transformers
 
 # ==========================
 #     Konfigurationen
@@ -66,6 +66,21 @@ def clean_memory():
     torch.cuda.empty_cache()
     torch.cuda.ipc_collect()
 
+def ensure_model_is_available(model_name, cache_dir, device):
+    """Prüft, ob das Modell vollständig lokal verfügbar ist – lädt es bei Bedarf herunter."""
+    try:
+        with io.StringIO() as buf, redirect_stdout(buf), redirect_stderr(buf):
+            AutoTokenizer.from_pretrained(model_name, cache_dir=cache_dir, local_files_only=True)
+            AutoModelForCausalLM.from_pretrained(model_name, cache_dir=cache_dir, local_files_only=True).to(device)
+        print(f"\n📁 Modell bereits lokal vorhanden: {model_name}")
+    except Exception as e:
+        print(f"\n⚠️  Modell nicht vollständig oder beschädigt. Es wird heruntergeladen: {model_name}")
+        with io.StringIO() as buf, redirect_stdout(buf), redirect_stderr(buf):
+            AutoTokenizer.from_pretrained(model_name, cache_dir=cache_dir)
+            AutoModelForCausalLM.from_pretrained(model_name, cache_dir=cache_dir).to(device)
+        print(f"✅ Modell erfolgreich heruntergeladen: {model_name}")
+    clean_memory()
+
 def get_model_param_size(model_name):
     """Berechnet die Anzahl der Modellparameter in Milliarden und Rohwert."""
     with io.StringIO() as buf, redirect_stdout(buf), redirect_stderr(buf):
@@ -98,6 +113,9 @@ if __name__ == '__main__':
     print("=" * 60)
 
     for model_name in models:
+        # Prüfen ob das Modell bereits lokal vorhanden ist
+        ensure_model_is_available(model_name, cache_dir, device)
+        
         # Zeit messen und Startzeit anzeigen
         now = datetime.now()
         start_time = now.strftime("%d.%m.%Y, %H:%M:%S")

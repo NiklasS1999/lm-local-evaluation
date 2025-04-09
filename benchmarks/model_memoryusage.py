@@ -131,6 +131,21 @@ def warm_up_model(model_name):
     del model, tokenizer
     clean_memory()
 
+def ensure_model_is_available(model_name, cache_dir, device):
+    """Prüft, ob das Modell vollständig lokal verfügbar ist – lädt es bei Bedarf herunter."""
+    try:
+        with io.StringIO() as buf, redirect_stdout(buf), redirect_stderr(buf):
+            AutoTokenizer.from_pretrained(model_name, cache_dir=cache_dir, local_files_only=True)
+            AutoModelForCausalLM.from_pretrained(model_name, cache_dir=cache_dir, local_files_only=True).to(device)
+        print(f"\n📁 Modell bereits lokal vorhanden: {model_name}")
+    except Exception as e:
+        print(f"\n⚠️  Modell nicht vollständig oder beschädigt. Es wird heruntergeladen: {model_name}")
+        with io.StringIO() as buf, redirect_stdout(buf), redirect_stderr(buf):
+            AutoTokenizer.from_pretrained(model_name, cache_dir=cache_dir)
+            AutoModelForCausalLM.from_pretrained(model_name, cache_dir=cache_dir).to(device)
+        print(f"✅ Modell erfolgreich heruntergeladen: {model_name}")
+    clean_memory()
+
 def measure_additional_metrics(model_name, prompt):
     """Misst zusätzliche Metriken: GPU-Nutzung, GPU-Temperatur, Startzeit."""
     torch.cuda.synchronize()
@@ -334,6 +349,9 @@ if __name__ == '__main__':
     print("=" * 60)
 
     for model_name in models:
+        # Prüfen ob das Modell bereits lokal vorhanden ist
+        ensure_model_is_available(model_name, cache_dir, device)
+        
         # Zeit messen und Startzeit anzeigen
         now = datetime.now()
         start_time = now.strftime("%d.%m.%Y, %H:%M:%S")

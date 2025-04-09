@@ -3,13 +3,15 @@
 # ==========================
 
 # Standardbibliotheken
+import io  # Für StringIO
 import json  # Zum Speichern der Ergebnisse im JSON-Format
 import os  # Für Dateipfade und Verzeichnisoperationen
+from contextlib import redirect_stdout, redirect_stderr  # Für das Umleiten von stdout und stderr
 from datetime import datetime  # Zeitstempel erstellen
 
 # Drittanbieter-Bibliotheken
 import datasets  # Umgebungsvariable für ein dataset setzen
-from transformers import AutoTokenizer  # Zum Laden des Tokenizers für die Modelle
+from transformers import AutoModelForCausalLM, AutoTokenizer # Transformers
 
 # Lokale Bibliotheken
 import lm_eval  # Evaluierungs-Framework für Sprachmodelle
@@ -84,6 +86,20 @@ def get_local_model_path(model_name):
     # Falls kein Modell vorhanden ist, gebe None zurück
     return None
 
+def ensure_model_is_available(model_name, cache_dir, device):
+    """Prüft, ob das Modell vollständig lokal verfügbar ist – lädt es bei Bedarf herunter."""
+    try:
+        with io.StringIO() as buf, redirect_stdout(buf), redirect_stderr(buf):
+            AutoTokenizer.from_pretrained(model_name, cache_dir=cache_dir, local_files_only=True)
+            AutoModelForCausalLM.from_pretrained(model_name, cache_dir=cache_dir, local_files_only=True).to(device)
+        print(f"\n📁 Modell bereits lokal vorhanden: {model_name}")
+    except Exception as e:
+        print(f"\n⚠️  Modell nicht vollständig oder beschädigt. Es wird heruntergeladen: {model_name}")
+        with io.StringIO() as buf, redirect_stdout(buf), redirect_stderr(buf):
+            AutoTokenizer.from_pretrained(model_name, cache_dir=cache_dir)
+            AutoModelForCausalLM.from_pretrained(model_name, cache_dir=cache_dir).to(device)
+        print(f"✅ Modell erfolgreich heruntergeladen: {model_name}")
+
 def serialize_results(obj):
     """Konvertiert nicht-serialisierbare Objekte in Strings, damit sie als JSON gespeichert werden können."""
     if isinstance(obj, dict):
@@ -122,28 +138,16 @@ if __name__ == '__main__':
     print("-" * 60)
 
     for model_name in models:
+        # Prüfen ob das Modell bereits lokal vorhanden ist
+        ensure_model_is_available(model_name, cache_dir, device)
+        
         # Speicherpfad für JSON-Datei prüfen und ggf. anlegen
         safe_model_name = model_name.replace('/', '_')
         model_result_dir = os.path.join(results_dir, safe_model_name)
         os.makedirs(model_result_dir, exist_ok=True)
 
         # Setzt den Pfad für das zu untersuchende Modell
-        local_model_path = get_local_model_path(model_name)
-
-        if local_model_path:
-            print(f"✅ Lokales Modell gefunden: {local_model_path}")
-            pretrained_path = local_model_path
-        else:
-            print(f"⚠️ Modell nicht im lokalen Cache gefunden. Lade von Hugging Face herunter...")
-            pretrained_path = model_name
-
-        # Überprüfen, ob Tokenizer aus lokalem Modellpfad geladen werden kann
-        try:
-            tokenizer = AutoTokenizer.from_pretrained(pretrained_path, trust_remote_code=True, use_fast=True)
-            print(f"✅ Tokenizer erfolgreich geladen.")
-        except Exception as e:
-            print(f"❌ Fehler beim Laden des Tokenizers: {e}")
-            continue  # Falls Tokenizer nicht funktioniert, überspringe das Modell
+        pretrained_path = get_local_model_path(model_name)
 
         # Modell laden
         model = HFLM(
