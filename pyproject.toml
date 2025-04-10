@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lm-local-evaluation"
+version = "0.1.0"
+description = "Ein lokal ausführbares Evaluations-Framework zur technischen und qualitativen Bewertung moderner Sprachmodelle."
+readme = "README.md"
+requires-python = "==3.11.*"
+license = {text = "MIT"}
+authors = [
+  { name = "Niklas Schwanitz"}
+]
+keywords = [
+  "language models", "benchmarking", "evaluation", "cuda", "huggingface", "transformers", "latency", "memory"
+]
+classifiers = [
+  "Programming Language :: Python :: 3.11",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Environment :: GPU :: NVIDIA CUDA",
+  "Intended Audience :: Science/Research",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence"
+]
+# urls = {
+#   "Homepage" = "https://github.com/NiklasS1999/lm-local-evaluation",
+#   "Repository" = "https://github.com/NiklasS1999/lm-local-evaluation",
+#   "Issues" = "https://github.com/NiklasS1999/lm-local-evaluation/issues"
+# }
+
+[tool.setuptools]
+packages = ["lm_eval"]
+
+[tool.setuptools.package-dir]
+"" = "lm-evaluation-harness"

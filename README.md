@@ -106,9 +106,9 @@ Dieses Repository enthält eine lokal integrierte und angepasste Version von [El
 
     - Virtuelle Umgebung starten
     ```bash
-    venv/Scripts/activate
+    .\venv\Scripts\activate
     ```
-9. **Abhängigkeiten installieren**
+9. **Modulabhängigkeiten installieren**
     - Pip aktualisieren
     ```bash
     python.exe -m pip install --upgrade pip
@@ -117,6 +117,7 @@ Dieses Repository enthält eine lokal integrierte und angepasste Version von [El
     - Benötigte Abhängigkeiten installieren
     ```bash
     pip install -r requirements.txt
+    pip install .
     ```
 10. **Huggingface Login und Konfiguration**
     - Account unter [Huggingface anlegen](https://huggingface.co/join)
