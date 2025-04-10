@@ -216,6 +216,7 @@ Dieses Repository enthält eine lokal integrierte und angepasste Version von [El
     - Benötigte Abhängigkeiten installieren
     ```bash
     pip install -r requirements.txt
+    pip install .
     ```
 7. **Huggingface Login und Konfiguration**
     - Account unter [Huggingface anlegen](https://huggingface.co/join)
