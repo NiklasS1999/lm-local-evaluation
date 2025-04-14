@@ -4,10 +4,10 @@ Mithilfe dieses Repositories können Language Models wie **Qwen**, **Gemma** ode
 
 Dazu werden je Modell folgende Kategorien gemessen, ausgewertet und grafisch dargestellt:
 - Installationsgröße
+- Parametergröße
 - Latenz
 - RAM-Speichernutzung
 - GPU-Speichernutzung
-- Parametergröße
 - Antwortqualität
 
 Dies dient dem Vergleich von verschiedenen Language Models zur lokalen Nutzung als persönlichen Assistenten.<br>
