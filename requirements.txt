@@ -1,13 +1,12 @@
 # Installation aller Abhängigkeiten mit: pip install -r requirements.txt
 
 # === Basistools ===
-nano
 pip
 setuptools
 wheel
 
 # === CUDA-kompatibles PyTorch (für CUDA 12.1–12.8) ===
-torch==2.1.2
+torch==2.1.2+cu121
 --extra-index-url https://download.pytorch.org/whl/cu121
 
 # === Hugging Face Core Stack ===
@@ -16,10 +15,14 @@ accelerate==0.27.2
 peft==0.7.1
 sentencepiece
 datasets
+huggingface_hub
 
-# === Utils & Metriken ===
+# === Metriken & Hilfstools ===
 numpy==1.24.4
 pandas
 psutil
 memory_profiler
 matplotlib
+
+# === Eigenes lm-eval Framework ===
+git+https://github.com/NiklasS1999/lm-evaluation-harness.git
