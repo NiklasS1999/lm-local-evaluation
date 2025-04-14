@@ -14,6 +14,8 @@ Dies dient dem Vergleich von verschiedenen Language Models zur lokalen Nutzung a
 Dadurch kann herausgefunden werden, ob der Einsatz eines bestimmten Language Models für eine bestimmte Hardware-Konfiguration, beispielsweise ein mobiles Endgeräts, sinnvoll ist.<br>
 Je nach Benutzer-Präferenz können hierbei andere Schwerpunkte gesetzt werden und entsprechend eine Auswahl getroffen werden.<br>
 
+Es wird empfohlen die Benchmarks unter einem Linux Betriebssystem auszuführen, da diese dort schneller, vollständig und zuverlässiger durchgeführt werden.<br>
+
 Dieses Repository enthält eine angepasste Version von [EleutherAI/lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness) für die Ermittlung der Antwortqualität. Alle notwendigen Änderungen sind enthalten und einsatzbereit.
 
 ---
@@ -235,7 +237,8 @@ Die Benchmarks können mithilfe von verschiedenen Einstellungen ausgeführt werd
 Die Konfiguration kann mithilfe der Datei global_config.py angepasst werden, diese ist ausführlich kommentiert und zeigt mögliche Anpassungen auf.<br>
 
 Neben der globalen Konfiguration kann auch je Benchmark eine eigene Konfiguration gesetzt werden.<br>
-Dies geschieht in den einzelnen Benchmark-Scripten.<br>
+Die einzelne Benchmark Konfiguration kann in den einzelnen Benchmark-Scripten im oberen Teil unter *Konfiguration* angepasst werden.<br>
+Diese greift jedoch nur, wenn keine globale Konfigurationsdatei vorhanden ist.<br>
 
 Bearbeiten der Globalen Konfiguration:
 ```bash
@@ -267,16 +270,16 @@ Liste an vorhandenen Benchmarks:
 | `model_memoryusage.py`       | Misst die **RAM- und GPU-Speichernutzung**: Cold-Start, reine Inferenz, Gesamtverbrauch.             |
 | `model_responsequality.py`   | Bewertet die **Antwortqualität** anhand vordefinierter Benchmarks (z. B. MMLU, HellaSwag, GSM8K).    |
 
-Ausführung eines einzelnen Benchmarks:
-```bash
-cd ./benchmarks # in den Benchmark-Ordner wechseln, wenn noch nicht getan
-python model_installationsize.py
-```
-
 Ausführung aller Benchmarks inkl. Auswertung:
 ```bash
 cd ./benchmarks # in den Benchmark-Ordner wechseln, wenn noch nicht getan
 python run_all_benchmarks.py
+```
+
+Ausführung eines einzelnen Benchmarks:
+```bash
+cd ./benchmarks # in den Benchmark-Ordner wechseln, wenn noch nicht getan
+python model_installationsize.py
 ```
 
 ---
@@ -291,12 +294,12 @@ Außerdem werden im Rahmen der Auswertung verschiedene Plots (Balkendiagramme) z
 
 Des Weiteren wird eine Auswertung bezüglich der jeweiligen Vor- und Nachteile eines Modells in Bezug auf den Vergleich zu den anderen Modellen in der Konsole ausgegeben. Diese Ergebnisse werden außerdem in einer Textdatei unter ./results/model_advantages.txt abgespeichert.<br>
 
-Die Auswertung kann auch manuell über den folgenden Befehl erstellt werden:
+Die Auswertung kann manuell erstellt werden:
 ```bash
 cd ./benchmarks # in den Benchmark-Ordner wechseln, wenn noch nicht getan
 python benchmark_overview.py
 ```
-Es werden dann jedoch nur die Ergebnisse dargestellt, welche auch vorhanden sind (wo bisher Benchmarks durchgeführt wurden).
+Es werden dann jedoch nur die Ergebnisse dargestellt, welche auch vorhanden sind, also wofür bisher Benchmarks durchgeführt wurden.
 
 ---
 
