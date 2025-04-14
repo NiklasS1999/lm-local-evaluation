@@ -41,7 +41,7 @@ CONFIG = {
     "repetitions": 3,
 
     # Maximale Anzahl generierter Tokens für RAM-Messung und Latenzmessung
-    "token_limit": 110,
+    "token_limit": 100,
 
     # Liste der Benchmarks für Antwortqualität-Messungen (mmlu 15min, hellaswag: 35min, gsm8k: 5std, humaneval: 12min (nur auf Linux), boolq: 4min)
     "tasks" : ["mmlu", "hellaswag", "gsm8k", "humaneval", "boolq"],

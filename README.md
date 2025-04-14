@@ -209,7 +209,7 @@ Dieses Repository enthält eine lokal integrierte und angepasste Version von [El
 6. **Abhängigkeiten installieren**
     - Pip aktualisieren
     ```bash
-    python.exe -m pip install --upgrade pip
+    pip install --upgrade pip
     ```
 
     - Benötigte Abhängigkeiten installieren
@@ -262,9 +262,9 @@ Liste an vorhandenen Benchmarks:
 | Benchmark-Skript          | Beschreibung                                                                                      |
 |------------------------------|-------------------------------------------------------------------------------------------------------|
 | `model_installationsize.py`  | Misst die **Installationsgröße** des Modells.                                                        |
+| `model_parametersize.py`     | Misst die **Größe der Modellparameter** – als Anhaltspunkt für den geschätzten Rechenaufwand.        |
 | `model_latency.py`           | Misst die **Latenz**: Tokenizer-, Modell-, Antwort- und Gesamtlatenz.                                |
 | `model_memoryusage.py`       | Misst die **RAM- und GPU-Speichernutzung**: Cold-Start, reine Inferenz, Gesamtverbrauch.             |
-| `model_parametersize.py`     | Misst die **Größe der Modellparameter** – als Anhaltspunkt für den geschätzten Rechenaufwand.        |
 | `model_responsequality.py`   | Bewertet die **Antwortqualität** anhand vordefinierter Benchmarks (z. B. MMLU, HellaSwag, GSM8K).    |
 
 Ausführung eines einzelnen Benchmarks:
