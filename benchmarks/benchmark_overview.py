@@ -51,7 +51,7 @@ BENCHMARKS = {
     "parameter_size": ["Parametergröße (Mrd.)"],
     "mmlu": ["acc,none", "acc_stderr,none"],
     "hellaswag": ["acc,none", "acc_stderr,none", "acc_norm,none", "acc_norm_stderr,none"],
-    "gsm8k": ["exact_match,strict-match", "exact_match_stderr,strict-match"],
+    "gsm8k": ["exact_match,strict-match", "exact_match_stderr,strict-match", "exact_match,flexible-extract", "exact_match_stderr,flexible-extract"],
     "humaneval": ["pass@1,create_test", "pass@1_stderr,create_test"],
     "boolq": ["acc,none", "acc_stderr,none"]
 }
@@ -82,6 +82,8 @@ METRIC_DISPLAY_AND_UNIT = {
     "acc_norm_stderr,none": ("Normierte Genauigkeit – Streuung", "Prozent"),
     "exact_match,strict-match": ("Exakte Übereinstimmung", "Prozent"),
     "exact_match_stderr,strict-match": ("Exakte Übereinstimmung – Streuung", "Prozent"),
+    "exact_match,flexible-extract": ("Exakte Übereinstimmung – flexibel", "Prozent"),
+    "exact_match_stderr,flexible-extract": ("Exakte Übereinstimmung – flexibel – Streuung", "Prozent"),
     "pass@1,create_test": ("Lösungsrate", "Prozent"),
     "pass@1_stderr,create_test": ("Lösungsrate – Streuung", "Prozent"),
 }
@@ -127,6 +129,8 @@ ROUND_FLOAT_FOR = {
     "Normierte Genauigkeit – Streuung",
     "Exakte Übereinstimmung",
     "Exakte Übereinstimmung – Streuung",
+    "Exakte Übereinstimmung (flexibel)",
+    "Exakte Übereinstimmung – Streuung (flexibel)",
     "Lösungsrate",
     "Lösungsrate – Streuung"
 }
@@ -139,6 +143,8 @@ SHOW_AS_PERCENT = {
     "acc_norm_stderr,none",
     "exact_match,strict-match",
     "exact_match_stderr,strict-match",
+    "exact_match,flexible-extract",
+    "exact_match_stderr,flexible-extract",
     "pass@1,create_test",
     "pass@1_stderr,create_test"
 }
@@ -147,6 +153,7 @@ SHOW_AS_PERCENT = {
 EVAL_METRIC_TO_BENCHMARK = {
     "acc,none": ["mmlu", "hellaswag", "boolq"],
     "exact_match,strict-match": ["gsm8k"],
+    "exact_match,flexible-extract": ["gsm8k"],
     "pass@1,create_test": ["humaneval"]
 }
 
@@ -173,20 +180,57 @@ def read_csv_data(filepath, fields):
     """Lese relevante Felder aus CSV-Datei. Für Speicherverbrauch spezielle Behandlung."""
     if "memory_usage" in filepath.name:
         return read_memory_usage_summary(filepath, fields)
+    if "latency" in filepath.name:
+        return read_latency_summary(filepath, fields)
 
     with open(filepath, newline='', encoding="utf-8") as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            if all(field in row and row[field].strip() for field in fields):
-                result = {}
-                for k in fields:
-                    val = row[k]
-                    try:
-                        result[k] = float(val.replace(",", "."))
-                    except (ValueError, AttributeError):
-                        result[k] = val
-                return result
-    return {}
+        reader = list(csv.DictReader(f))
+        if not reader:
+            return {}
+
+        last_row = reader[-1]
+        result = {}
+        for k in fields:
+            val = last_row.get(k, "")
+            try:
+                result[k] = float(val.replace(",", "."))
+            except (ValueError, AttributeError):
+                result[k] = val
+        return result
+
+def read_latency_summary(filepath, fields):
+    """Extrahiere Latenzwerte aus CSV mit zwei Blöcken – nimm den zweiten Header + letzte Zeile."""
+    try:
+        with open(filepath, encoding="utf-8") as f:
+            lines = f.readlines()
+
+        # Nur Zeilen aus dem unteren Block behalten (ab Zeile mit 'Modell')
+        summary_lines = [line.strip() for line in lines if line.strip().startswith("Modell") or line.strip().startswith(tuple(local_config["models"]))]
+
+        if len(summary_lines) < 2:
+            return {}
+
+        import io
+        reader = csv.DictReader(io.StringIO("\n".join(summary_lines)))
+        rows = list(reader)
+
+        if not rows:
+            return {}
+
+        last_row = rows[-1]
+        result = {}
+        for k in fields:
+            val = last_row.get(k, "").strip()
+            try:
+                result[k] = float(val.replace(",", "."))
+            except (ValueError, AttributeError):
+                result[k] = val
+
+        return result
+
+    except Exception as e:
+        print(f"⚠️ Fehler beim Parsen der Latenz aus {filepath.name}: {e}")
+        return {}
 
 def read_memory_usage_summary(filepath, fields):
     """Extrahiere Speicherverbrauch aus spezieller CSV-Ausgabe mit Durchschnittszeile."""
@@ -327,6 +371,12 @@ def write_csv_summary(all_data,output_file="results/benchmark_overview.csv"):
         full_label = label + suffix
         full_label_map[(k, b_key)] = full_label
         fieldnames.append(full_label)
+    
+    flex_label = DISPLAY_NAME_MAP["exact_match,flexible-extract"]
+    flex_field = f"{flex_label} ({BENCHMARK_LABELS['gsm8k']})"
+    full_label_map[("exact_match,flexible-extract", "gsm8k")] = flex_field
+    gsm_index = fieldnames.index("Exakte Übereinstimmung (GSM8K)")
+    fieldnames.insert(gsm_index + 1, flex_field)
 
     with open(output_file, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
@@ -339,10 +389,8 @@ def write_csv_summary(all_data,output_file="results/benchmark_overview.csv"):
                 for k, v in b_data.items():
                     if (k, "") in full_label_map:
                         full_label = full_label_map[(k, "")]
-                    elif b_key in eval_main_metrics and k == eval_main_metrics[b_key]:
-                        full_label = full_label_map.get((k, b_key))
-                        if not full_label:
-                            continue
+                    elif (k, b_key) in full_label_map:
+                        full_label = full_label_map[(k, b_key)]
                     else:
                         continue
 
@@ -427,45 +475,56 @@ def generate_comparison_plots(csv_path="results/benchmark_overview.csv",plot_dir
             plt.savefig(os.path.join(plot_dir, f"plot_{safe_name}.png"))
             plt.close()
 
-        for key, label in BENCHMARK_LABELS.items():
-            if key == "gsm8k":
-                metric = "exact_match,strict-match"
-            elif key == "humaneval":
-                metric = "pass@1,create_test"
-            else:
-                metric = "acc,none"
+        eval_metrics = {
+            "mmlu": ["acc,none"],
+            "hellaswag": ["acc,none"],
+            "gsm8k": ["exact_match,strict-match", "exact_match,flexible-extract"],
+            "humaneval": ["pass@1,create_test"],
+            "boolq": ["acc,none"]
+        }
 
-            name = DISPLAY_NAME_MAP.get(metric, metric)
-            col = f"{name} ({label})"
-            if col not in df.columns:
-                print(f"⚠️ Spalte '{col}' fehlt – übersprungen.")
-                continue
+        for key, metrics in eval_metrics.items():
+            for metric in metrics:
+                name = DISPLAY_NAME_MAP.get(metric, metric)
+                col = f"{name} ({BENCHMARK_LABELS[key]})"
 
-            cleaned = df[col].replace(["–", "n/a", "", None], pd.NA).astype(str)
-            numeric = pd.to_numeric(
-                cleaned.str.extract(r"([\d.,]+)")[0].str.replace(",", "."),
-                errors="coerce"
-            )
-            numeric.index = df.index
+                if col not in df.columns:
+                    print(f"⚠️ Spalte '{col}' fehlt – übersprungen.")
+                    continue
 
-            if numeric.isna().all():
-                print(f"⚠️ Keine Daten für '{col}' – kein Plot.")
-                continue
+                cleaned = df[col].replace(["–", "n/a", "", None], pd.NA).astype(str)
+                numeric = pd.to_numeric(
+                    cleaned.str.extract(r"([\d.,]+)")[0].str.replace(",", "."),
+                    errors="coerce"
+                )
+                numeric.index = df.index
 
-            df[col] = numeric
-            ax = df[col].plot(kind="bar", figsize=(8, 5), title=col, rot=45)
-            for idx, val in enumerate(df[col]):
-                if pd.isna(val):
-                    dummy = max(1, df[col].max() * 0.05)
-                    ax.bar(idx, dummy, color="lightgray", alpha=0.5)
-                    ax.text(idx, dummy + 0.1, "Keine Daten",
-                            ha="center", va="bottom", fontsize=9, color="gray")
+                if numeric.isna().all():
+                    print(f"⚠️ Keine Daten für '{col}' – kein Plot.")
+                    continue
 
-            ax.set_ylabel("Prozent")
-            ax.set_xlabel("Modell")
-            plt.tight_layout()
-            plt.savefig(os.path.join(plot_dir, f"plot_{key}.png"))
-            plt.close()
+                df[col] = numeric
+                ax = df[col].plot(kind="bar", figsize=(8, 5), title=col, rot=45)
+                for idx, val in enumerate(df[col]):
+                    if pd.isna(val):
+                        dummy = max(1, df[col].max() * 0.05)
+                        ax.bar(idx, dummy, color="lightgray", alpha=0.5)
+                        ax.text(idx, dummy + 0.1, "Keine Daten",
+                                ha="center", va="bottom", fontsize=9, color="gray")
+
+                ax.set_ylabel("Prozent")
+                ax.set_xlabel("Modell")
+                plt.tight_layout()
+
+                # 🔁 Neues Dateinamensschema für GSM8K
+                if key == "gsm8k":
+                    suffix = "strict" if "strict" in metric else "flexible"
+                    filename = f"plot_gsm8k_{suffix}.png"
+                else:
+                    filename = f"plot_{key}.png"
+
+                plt.savefig(os.path.join(plot_dir, filename))
+                plt.close()
 
         print(f"✅ Einzelplots gespeichert unter: '{plot_dir}'")
 
@@ -565,6 +624,7 @@ def generate_combined_eval_plot(csv_path="results/benchmark_overview.csv",output
             f"{DISPLAY_NAME_MAP['acc,none']} ({BENCHMARK_LABELS['mmlu']})",
             f"{DISPLAY_NAME_MAP['acc,none']} ({BENCHMARK_LABELS['hellaswag']})",
             f"{DISPLAY_NAME_MAP['exact_match,strict-match']} ({BENCHMARK_LABELS['gsm8k']})",
+            f"{DISPLAY_NAME_MAP['exact_match,flexible-extract']} ({BENCHMARK_LABELS['gsm8k']})",
             f"{DISPLAY_NAME_MAP['pass@1,create_test']} ({BENCHMARK_LABELS['humaneval']})",
             f"{DISPLAY_NAME_MAP['acc,none']} ({BENCHMARK_LABELS['boolq']})"
         ]
@@ -654,6 +714,7 @@ def evaluate_model_advantages(csv_path="results/benchmark_overview.csv",output_p
             "Genauigkeit (MMLU)",
             "Genauigkeit (HellaSwag)",
             "Exakte Übereinstimmung (GSM8K)",
+            "Exakte Übereinstimmung – flexibel (GSM8K)",
             "Lösungsrate (HumanEval)",
             "Genauigkeit (BoolQ)"
         }
@@ -681,31 +742,40 @@ def evaluate_model_advantages(csv_path="results/benchmark_overview.csv",output_p
             values = sorted_series.values
 
             best_value = values[0]
-            second_best = values[1]
+            second_best = values[1] if len(values) > 1 else best_value
+            worst_value = values[-1]
+            second_worst = values[-2] if len(values) > 1 else worst_value
 
             for model in df.index:
                 model_value = numeric[model]
 
                 if model_value == best_value:
-                    diff = (
-                        (second_best - best_value) / second_best
-                        if ascending else
-                        (best_value - second_best) / second_best
-                    )
-                    pct_str = f"{diff * 100:.0f}%"
-                    sign = "-" if ascending else "+"
-                    model_evaluation[model]["Vorteile"].append(f"{metric} ({sign}{pct_str})")
+                    if second_best == 0:
+                        annotation = "bester Wert"
+                    else:
+                        diff = (
+                            (second_best - best_value) / second_best
+                            if ascending else
+                            (best_value - second_best) / second_best
+                        )
+                        pct_str = f"{diff * 100:.0f}%"
+                        sign = "-" if ascending else "+"
+                        annotation = f"{sign}{pct_str}"
+                    model_evaluation[model]["Vorteile"].append(f"{metric} ({annotation})")
 
-                elif model_value == values[-1]:
-                    second_worst = values[-2]
-                    diff = (
-                        (model_value - second_worst) / second_worst
-                        if ascending else
-                        (second_worst - model_value) / second_worst
-                    )
-                    pct_str = f"{diff * 100:.0f}%"
-                    sign = "+" if ascending else "-"
-                    model_evaluation[model]["Nachteile"].append(f"{metric} ({sign}{pct_str})")
+                elif model_value == worst_value:
+                    if second_worst == 0:
+                        annotation = "schlechtester Wert"
+                    else:
+                        diff = (
+                            (model_value - second_worst) / second_worst
+                            if ascending else
+                            (second_worst - model_value) / second_worst
+                        )
+                        pct_str = f"{diff * 100:.0f}%"
+                        sign = "+" if ascending else "-"
+                        annotation = f"{sign}{pct_str}"
+                    model_evaluation[model]["Nachteile"].append(f"{metric} ({annotation})")
 
         # Konsolenausgabe
         print("\n" + "=" * 60 + "\n")
