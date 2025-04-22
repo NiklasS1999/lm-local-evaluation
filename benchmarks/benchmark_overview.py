@@ -460,12 +460,16 @@ def generate_comparison_plots(csv_path="results/benchmark_overview.csv",plot_dir
             unit = unit_labels.get(raw_unit, "")
 
             ax = df[col].plot(kind="bar", figsize=(8, 5), title=col, rot=45)
+
             for idx, val in enumerate(df[col]):
                 if pd.isna(val):
                     dummy = max(1, df[col].max() * 0.05)
                     ax.bar(idx, dummy, color="lightgray", alpha=0.5)
-                    ax.text(idx, dummy + 0.1, "Keine Daten",
-                            ha="center", va="bottom", fontsize=9, color="gray")
+                    ax.text(idx, dummy / 2, "Keine Daten",
+                            ha="center", va="center", fontsize=9, color="gray")
+                else:
+                    ax.text(idx, val / 2, f"{val:.2f}",
+                            ha="center", va="center", fontsize=9, color="white")
 
             ax.set_ylabel(unit)
             ax.set_xlabel("Modell")
@@ -505,12 +509,16 @@ def generate_comparison_plots(csv_path="results/benchmark_overview.csv",plot_dir
 
                 df[col] = numeric
                 ax = df[col].plot(kind="bar", figsize=(8, 5), title=col, rot=45)
+
                 for idx, val in enumerate(df[col]):
                     if pd.isna(val):
                         dummy = max(1, df[col].max() * 0.05)
                         ax.bar(idx, dummy, color="lightgray", alpha=0.5)
-                        ax.text(idx, dummy + 0.1, "Keine Daten",
-                                ha="center", va="bottom", fontsize=9, color="gray")
+                        ax.text(idx, dummy / 2, "Keine Daten",
+                                ha="center", va="center", fontsize=9, color="gray")
+                    else:
+                        ax.text(idx, val / 2, f"{val:.2f}%",
+                                ha="center", va="center", fontsize=9, color="white")
 
                 ax.set_ylabel("Prozent")
                 ax.set_xlabel("Modell")
@@ -597,6 +605,16 @@ def generate_combined_technical_plot(csv_path="results/benchmark_overview.csv",o
                         fontsize=9,
                         color="gray"
                     )
+                else:
+                    ax.text(
+                        idx,
+                        val / 2,
+                        f"{val:.2f}",
+                        ha="center",
+                        va="center",
+                        fontsize=9,
+                        color="white"
+                    )
 
             if only_dummy:
                 ax.set_ylim(0, 10)
@@ -674,6 +692,16 @@ def generate_combined_eval_plot(csv_path="results/benchmark_overview.csv",output
                         va="bottom",
                         color="gray",
                         fontsize=9
+                    )
+                else:
+                    ax.text(
+                        idx,
+                        val / 2,
+                        f"{val:.2f}%",
+                        ha="center",
+                        va="center",
+                        fontsize=9,
+                        color="white"
                     )
 
             if only_dummy:
