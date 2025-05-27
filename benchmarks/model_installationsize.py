@@ -97,7 +97,6 @@ def save_results_to_csv(csv_path, model_name, formatted_size, size_in_bytes):
 # ==========================
 
 if __name__ == '__main__':
-    # Art der Analyse anzeigen
     print("--- Festplatten-Speicherverbrauch Analyse ---\n")
     print("=" * 60)
 
