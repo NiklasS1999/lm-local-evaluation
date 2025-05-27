@@ -21,7 +21,8 @@ from transformers import AutoModelForCausalLM, AutoTokenizer, logging as transfo
 local_config = {
     "models" : ["Qwen/Qwen2.5-3B", "google/gemma-2-2b", "meta-llama/Llama-3.2-3B"],
     "device" : "cuda",
-    "cache_dir" : "./models_cache"
+    "cache_dir" : "./models_cache",
+    "results_dir" : "./results"
 }
 
 # Laden der globalen Konfiguration (wenn vorhanden)
@@ -34,10 +35,11 @@ except ImportError:
 models = config["models"]
 device = config["device"]
 cache_dir = config["cache_dir"]
+results_dir = config["results_dir"]
 
 # Verzeichnis anlegen, wenn dieses noch nicht existiert
 os.makedirs(cache_dir, exist_ok=True)
-
+os.makedirs(results_dir, exist_ok=True)
 
 # Warnungen und unnötige Protokollierungen unterdrücken
 warnings.filterwarnings("ignore", category=UserWarning)
@@ -98,10 +100,6 @@ if __name__ == '__main__':
     # Art der Analyse anzeigen
     print("--- Festplatten-Speicherverbrauch Analyse ---\n")
     print("=" * 60)
-
-    # Zielordner für CSV-Datei prüfen und ggf. anlegen
-    results_dir = "./results"
-    os.makedirs(results_dir, exist_ok=True)
 
     for model_name in models:
         # Prüfen ob das Modell bereits lokal vorhanden ist
