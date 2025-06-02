@@ -8,10 +8,10 @@ os.environ["BENCH_PARENT"] = "1"
 
 def run_benchmark_scripts():
     scripts = [
-        "model_installationsize.py",
         "model_parametersize.py",
-        "model_latency.py",
+        "model_installationsize.py",
         "model_memoryusage.py",
+        "model_latency.py",
         "model_responsequality.py",
         "benchmark_overview.py"
     ]
