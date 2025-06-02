@@ -38,7 +38,7 @@ CONFIG = {
     ],
 
     # Anzahl an Messwiederholungen je Prompt und Modell für RAM-Messung und Latenzmessung
-    "repetitions": 3,
+    "repetitions": 5,
 
     # Maximale Anzahl generierter Tokens für RAM-Messung und Latenzmessung
     "token_limit": 100,

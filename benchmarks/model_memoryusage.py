@@ -67,7 +67,6 @@ results_dir = config["results_dir"]
 os.makedirs(cache_dir, exist_ok=True)
 os.makedirs(results_dir, exist_ok=True)
 
-
 # Warnungen und unnötige Protokollierungen unterdrücken
 warnings.filterwarnings("ignore", category=UserWarning)
 transformers_logging.set_verbosity_error()
