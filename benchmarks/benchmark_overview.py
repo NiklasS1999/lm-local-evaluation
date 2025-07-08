@@ -782,11 +782,11 @@ def evaluate_model_advantages(csv_path="results/benchmark_overview.csv",output_p
                         annotation = "bester Wert"
                     else:
                         diff = (
-                            (second_best - best_value) / best_value
+                            (second_best - best_value) / second_best
                             if ascending else
-                            (best_value - second_best) / best_value
+                            (best_value - second_best) / second_best
                         )
-                        pct_str = f"{diff * 100:.0f} %"
+                        pct_str = f"{diff * 100:.1f}%"
                         sign = "-" if ascending else "+"
                         annotation = f"{sign}{pct_str}"
                     model_evaluation[model]["Vorteile"].append(f"{metric} ({annotation})")
@@ -796,11 +796,11 @@ def evaluate_model_advantages(csv_path="results/benchmark_overview.csv",output_p
                         annotation = "schlechtester Wert"
                     else:
                         diff = (
-                            (model_value - second_worst) / worst_value
+                            (model_value - second_worst) / second_worst
                             if ascending else
-                            (second_worst - model_value) / worst_value
+                            (second_worst - model_value) / second_worst
                         )
-                        pct_str = f"{diff * 100:.0f} %"
+                        pct_str = f"{diff * 100:.1f}%"
                         sign = "+" if ascending else "-"
                         annotation = f"{sign}{pct_str}"
                     model_evaluation[model]["Nachteile"].append(f"{metric} ({annotation})")
